@@ -51,9 +51,22 @@ public class Space : MonoBehaviour
             name = pathKey + spaceIndex;
         }
 
-        if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.extraCardSpaces))
+        if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.extraCardSpaces)) //show text for extra card space
         {
-            mo.ShowTextForSpace(pathKey, spaceIndex, true); //show text
+            mo.ShowTextForSpace(mo.extraCardSpaceText);
+            mo.ChangeTextForSpaceColor(pathKey, spaceIndex);
+            textShowing = true;
+        }
+        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.questStartSpaces)) //show text for quest start space
+        {
+            mo.ShowTextForSpace(mo.questStartSpaceText);
+            mo.ChangeTextForSpaceColor(pathKey, spaceIndex);
+            textShowing = true;
+        }
+        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.questEndSpaces)) //show text for quest end space
+        {
+            mo.ShowTextForSpace(mo.questEndSpaceText);
+            mo.ChangeTextForSpaceColor(pathKey, spaceIndex);
             textShowing = true;
         }
     }
@@ -62,7 +75,7 @@ public class Space : MonoBehaviour
     {
         if (textShowing)
         {
-            mo.ShowTextForSpace(pathKey, spaceIndex, false);//unshow text
+            mo.UnShowTextForSpace();
             textShowing = false;
         }
     }

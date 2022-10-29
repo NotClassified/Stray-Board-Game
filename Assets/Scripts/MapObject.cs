@@ -69,7 +69,9 @@ public class MapObject : MonoBehaviour
     public TextMeshProUGUI[] playerCardsText;
 
     public GameObject extraCardSpaceText;
-    public Vector3 extraCardTextOffset;
+    public GameObject questStartSpaceText;
+    public GameObject questEndSpaceText;
+    public Vector3 specialSpaceTextOffset;
 
     void Awake()
     {
@@ -293,11 +295,43 @@ public class MapObject : MonoBehaviour
         enemyAmountText.text = "Number Of Enemies: " + enemyAmount; //update text
     }
 
-    public void ShowTextForSpace (string pathKey, int spaceIndex, bool active)
+    public void ShowTextForSpace (GameObject text)
     {
-        extraCardSpaceText.SetActive(active);
-        if (active) //move text next to the space being hovered
-            extraCardSpaceText.transform.position = Input.mousePosition + extraCardTextOffset;
+        text.SetActive(true); //activate text
+        text.transform.position = Input.mousePosition + specialSpaceTextOffset; //move text next to mouse
+    }
+    public void UnShowTextForSpace() //deactivate all texts for spaces
+    {
+        extraCardSpaceText.SetActive(false);
+        questStartSpaceText.SetActive(false);
+        questEndSpaceText.SetActive(false);
+    }
+    public void ChangeTextForSpaceColor(string pathKey, int spaceIndex)
+    {
+        int questNum = WhichQuest(pathKey, spaceIndex);
+        if (questNum == -1) //prevent out of boundaries error
+            return;
+
+        if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces))
+        {
+            //TextMeshProUGUI text = questStartSpaceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            Image image = questStartSpaceText.transform.GetChild(0).GetComponent<Image>();
+            //text.color = questStartSpaceMaterials[questNum].color;
+            //make back image slightly transparent
+            var tempColor = questStartSpaceMaterials[questNum].color;
+            tempColor.a = .7f;
+            image.color = tempColor;
+        }
+        else if (IsSpecialSpace(pathKey, spaceIndex, questEndSpaces))
+        {
+            //TextMeshProUGUI text = questEndSpaceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            Image image = questEndSpaceText.transform.GetChild(0).GetComponent<Image>();
+            //text.color = questEndSpaceMaterials[questNum].color;
+            //make back image slightly transparent
+            var tempColor = questEndSpaceMaterials[questNum].color;
+            tempColor.a = .7f;
+            image.color = tempColor;
+        }
     }
 
     void GoAlongPath(string pathKey, int spaceIndex, int movesLeft)
