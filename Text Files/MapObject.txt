@@ -13,7 +13,6 @@ public class MapObject : MonoBehaviour
     public Material extraSpaceMaterial;
     public Material[] questStartSpaceMaterials;
     public Material[] questEndSpaceMaterials;
-    public Material vendinMachineMaterial;
 
     public Material[] playerMaterials;
 
@@ -23,17 +22,13 @@ public class MapObject : MonoBehaviour
     int spaceIndex = 0;
     public Dictionary<string, GameObject[]> paths;
     List<GameObject> possibleSpaces = new List<GameObject>();
-    public Transform boardSpacesParent;
-
     public GameObject[] extraCardSpaces;
     public GameObject[] questStartSpaces;
     public GameObject[] questEndSpaces;
-    public GameObject[] vendingMachineSpaces;
-    public List<string> vendingMachineCards;
-    string[] vendingMachineCardNames;
+    public Transform boardSpacesParent;
 
     public GameObject[] players;
-    int playerTurn = -1;
+    int playerTurn;
     public int PlayerTurn
     {
         set
@@ -46,14 +41,12 @@ public class MapObject : MonoBehaviour
     }
     PlayerScript[] ps;
     public Vector3[] playerOffsets;
-    public float playerScaleDuringTurn;
-    public float playerScaleNotDuringTurn;
 
+    int gameRound = 0;
     int enemyAmount = 0;
     int playerCombatPoints;
     public int enemyIncrease = 2;
     bool enemyPhase = false;
-    int gameRound = 1;
     int GameRound
     {
         set
@@ -82,7 +75,6 @@ public class MapObject : MonoBehaviour
 
     void Awake()
     {
-        //loading all pathways and space types
         paths = new Dictionary<string, GameObject[]>();
         foreach (Transform child in transform)
         {
@@ -110,8 +102,6 @@ public class MapObject : MonoBehaviour
                     boardSpaceRenderer.material = questStartSpaceMaterials[WhichQuest(space.pathKey, space.spaceIndex)];
                 else if (IsSpecialSpace(space.pathKey, space.spaceIndex, questEndSpaces)) //quest end space
                     boardSpaceRenderer.material = questEndSpaceMaterials[WhichQuest(space.pathKey, space.spaceIndex)];
-                else if (IsSpecialSpace(space.pathKey, space.spaceIndex, vendingMachineSpaces)) //quest end space
-                    boardSpaceRenderer.material = vendinMachineMaterial;
                 else //normal space
                     boardSpaceRenderer.material = normalSpaceMaterial;
             }
@@ -173,13 +163,6 @@ public class MapObject : MonoBehaviour
                     closestChildSpace.connectedPath2 = keyNames[i];
             }
         }
-
-        //get all the names of the vending machine cards
-        vendingMachineCardNames = new string[vendingMachineCards.Count];
-        for (int i = 0; i < vendingMachineCards.Count; i++)
-        {
-            vendingMachineCardNames[i] = vendingMachineCards[i];
-        }
     }
 
     private void Start()
@@ -196,6 +179,7 @@ public class MapObject : MonoBehaviour
             players[i].transform.position = paths[keyNames[0]][0].transform.position + playerOffsets[i]; //starting position
             playerCardsText[i].color = playerMaterials[i].color;
         }
+        GameRound++;
         phaseText.text = "Move Phase";
     }
 
@@ -229,13 +213,6 @@ public class MapObject : MonoBehaviour
                 RemoveCard(PlayerTurn, 9 - 1);
             if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
             {
-                if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[0])) //Robot carrying box (plus 1 stealth stat)
-                    playerCombatPoints += 1;
-                if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[1]))
-                    playerCombatPoints += 1;
-                if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[2]))
-                    playerCombatPoints -= 1;
-
                 if ((enemyAmount * 2) - playerCombatPoints > 0) //player didn't eliminate all enemies
                     PushBackPlayer(PlayerTurn, ((enemyAmount * 2) - playerCombatPoints + 1) / 2);
 
@@ -423,19 +400,14 @@ public class MapObject : MonoBehaviour
         return -1; //path emtpy
     }
 
-    public void MovePlayer(int playerNum, string pathKey, int spaceIndex, bool pushedBack)
+    public void MovePlayer(int playerNum, string pathKey, int spaceIndex)
     {
         players[playerNum].transform.position = paths[pathKey][spaceIndex].transform.position + playerOffsets[playerNum];
         ps[playerNum].pathKey = pathKey;
         ps[playerNum].spaceIndex = spaceIndex;
 
-        if (!pushedBack) //if player is deciding to move to this space, check if the space is special
-        {
-            if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
-                DrawCard(playerNum);
-            else if (IsSpecialSpace(pathKey, spaceIndex, vendingMachineSpaces))
-                DrawVendingMachineCard(playerNum);
-        }
+        if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
+            DrawCard(playerNum);
     }
 
     public void NextMoveTurn()
@@ -443,13 +415,8 @@ public class MapObject : MonoBehaviour
         if (PlayerTurn + 1 < players.Length)
         {
             PlayerTurn++;
+            ShowPossibleSpaces(PlayerTurn, rollMoves);
             turnText.text = "Player's Turn: " + (PlayerTurn + 1);
-
-            //Bucket zipline (plus 1 movement minus 1 stealth)
-            if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[3])) 
-                ShowPossibleSpaces(PlayerTurn, rollMoves + 1); 
-            else
-                ShowPossibleSpaces(PlayerTurn, rollMoves);
         }
         else
         {
@@ -474,7 +441,7 @@ public class MapObject : MonoBehaviour
         if (moves > 0)
         {
             if (ps[playerNum].spaceIndex - 1 >= 0)
-                MovePlayer(playerNum, ps[playerNum].pathKey, ps[playerNum].spaceIndex - 1, true);
+                MovePlayer(playerNum, ps[playerNum].pathKey, ps[playerNum].spaceIndex - 1);
             else
             {
                 foreach (Transform child in transform)
@@ -483,9 +450,9 @@ public class MapObject : MonoBehaviour
                     if (childSpaceScript.startOfConnectedPath)
                     {
                         if (childSpaceScript.connectedPath1.Equals(ps[playerNum].pathKey))
-                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true);
+                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex);
                         if (childSpaceScript.connectedPath2.Equals(ps[playerNum].pathKey))
-                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true);
+                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex);
                     }
                 }
             }
@@ -503,11 +470,9 @@ public class MapObject : MonoBehaviour
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
 
-        //PlayerTurn = 0;
-        //turnText.text = "Player's Turn: " + (PlayerTurn + 1);
-        //ShowPossibleSpaces(PlayerTurn, rollMoves);
-        playerTurn = -1;
-        NextMoveTurn();
+        PlayerTurn = 0;
+        turnText.text = "Player's Turn: " + (PlayerTurn + 1);
+        ShowPossibleSpaces(PlayerTurn, rollMoves);
     }
 
     void DrawCard(int playerNum)
@@ -515,52 +480,12 @@ public class MapObject : MonoBehaviour
         ps[playerNum].cards.Add(Random.Range(1, 8));
         UpdatePlayerCards(playerNum);
     }
+
     void RemoveCard(int playerNum, int card)
     {
         playerCombatPoints += ps[playerNum].cards[card];
         ps[playerNum].cards.RemoveAt(card);
         UpdatePlayerCards(playerNum);
-    }
-    void DrawVendingMachineCard(int playerNum)
-    {
-        string card = vendingMachineCards[Random.Range(0, vendingMachineCards.Count)];
-        vendingMachineCards.Remove(card);
-        ps[playerNum].vendingMachineCards.Add(card);
-
-        //int cardIndex = -1;
-        //for (int i = 0; i < vendingMachineCardNames.Length; i++) //find which card the player drew
-        //    if (vendingMachineCardNames[i].Equals(card))
-        //        cardIndex = i;
-
-        //switch (cardIndex)
-        //{
-        //    case 0: //Robot carrying box (plus 1 stealth stat)
-
-        //        break;
-        //    case 1: //Barrel rolls through lasers (plus 1 stealth)
-
-        //        break;
-        //    case 2: //Bucket zipline (plus 1 movement minus 1 stealth)
-
-        //        break;
-        //    case 3: //Elevator (skip a enemy phase)
-
-        //        break;
-        //    default:
-        //        Debug.LogError("couldn't find vending machine card");
-        //        break;
-        //}
-
-        //UpdatePlayerCards(playerNum);
-    }
-    bool HasVendingMachineCard(int playerNum, string card)
-    {
-        //if (vendingMachineCardNames[3].Equals(card)) //card that is a one time use
-        //{
-        //    ps[playerNum].vendingMachineCards.Contains(card);
-        //}
-
-        return ps[playerNum].vendingMachineCards.Contains(card);
     }
 
     void UpdatePlayerCards(int playerNum)

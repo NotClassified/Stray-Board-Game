@@ -643,6 +643,7 @@ MonoBehaviour:
   playerNum: 0
   mo: {fileID: 861071902}
   cards: 
+  vendingMachineCards: []
 --- !u!23 &51169267
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10944,6 +10945,7 @@ MonoBehaviour:
   questEndSpaceMaterials:
   - {fileID: 2100000, guid: cb9ddf7975f3103469cdca8e49174373, type: 2}
   - {fileID: 2100000, guid: a997f48669fe3574f8388edad1ce5662, type: 2}
+  vendinMachineMaterial: {fileID: 2100000, guid: bbb60fbc13ef5c84989bfd4111828669, type: 2}
   playerMaterials:
   - {fileID: 2100000, guid: a4c40bf67b224624c8e6f1a7d07991a5, type: 2}
   - {fileID: 2100000, guid: 1eb9e9cfce7d40043886f865f4f1089d, type: 2}
@@ -10959,6 +10961,7 @@ MonoBehaviour:
   - 'Side Path 5 - '
   - 'Side Path 6 - '
   keyNameIndex: 7
+  boardSpacesParent: {fileID: 544846501}
   extraCardSpaces:
   - {fileID: 1228319399}
   - {fileID: 1340891937}
@@ -10969,13 +10972,23 @@ MonoBehaviour:
   - {fileID: 1318317294}
   - {fileID: 710367398}
   - {fileID: 858869687}
+  - {fileID: 873214081}
   questStartSpaces:
   - {fileID: 1741709772}
   - {fileID: 706754590}
   questEndSpaces:
   - {fileID: 443799732}
   - {fileID: 626579682}
-  boardSpacesParent: {fileID: 544846501}
+  vendingMachineSpaces:
+  - {fileID: 1922312087}
+  - {fileID: 1548299131}
+  - {fileID: 397303134}
+  - {fileID: 764852920}
+  vendingMachineCards:
+  - Robot carrying box
+  - Barrel rolls through lasers
+  - Bucket zipline
+  - Elevator
   players:
   - {fileID: 1723543461}
   - {fileID: 51169264}
@@ -10986,6 +10999,8 @@ MonoBehaviour:
   - {x: 0.3, y: 0.3, z: 0}
   - {x: -0.3, y: -0.3, z: 0}
   - {x: 0.3, y: -0.3, z: 0}
+  playerScaleDuringTurn: 1
+  playerScaleNotDuringTurn: 0.5
   enemyIncrease: 2
   rollText: {fileID: 363972408}
   turnText: {fileID: 1610957027}
@@ -15071,6 +15086,7 @@ MonoBehaviour:
   playerNum: 0
   mo: {fileID: 861071902}
   cards: 
+  vendingMachineCards: []
 --- !u!23 &1173338853
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22722,6 +22738,7 @@ MonoBehaviour:
   playerNum: 0
   mo: {fileID: 861071902}
   cards: 
+  vendingMachineCards: []
 --- !u!23 &1723543464
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22794,7 +22811,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723543461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
@@ -26395,6 +26412,7 @@ MonoBehaviour:
   playerNum: 0
   mo: {fileID: 861071902}
   cards: 
+  vendingMachineCards: []
 --- !u!23 &2012237756
 MeshRenderer:
   m_ObjectHideFlags: 0
