@@ -62,6 +62,7 @@ public class MapObject : MonoBehaviour
     int enemyAmount = 0;
     int playerCombatPoints;
     public int enemyIncrease = 2;
+    public int enemyLimit;
     bool enemyPhase = false;
     int gameRound = 1;
     int GameRound
@@ -69,8 +70,7 @@ public class MapObject : MonoBehaviour
         set
         {
             gameRound = value;
-            enemyAmount = (value + enemyIncrease - 1) / enemyIncrease;
-            enemyAmountText.text = "Number Of Enemies: " + enemyAmount;
+            SetEnemyAmount();
         }
         get { return gameRound; }
     }
@@ -253,23 +253,15 @@ public class MapObject : MonoBehaviour
 
                 NextEnemyPhaseTurn();
             }
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                //Elevator (skip an enemy phase)
-                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3]))
-                {
-                    NextEnemyPhaseTurn();
-                }
+                UseElevatorCard(); //skip an enemy phase
             }
         }
     }
 
     void ResetAllPossibleSpace()
     {
-        //foreach (Transform child in transform)
-        //{
-        //    child.GetComponent<Space>().PossibleSpace = false;
-        //}
         foreach (GameObject space in possibleSpaces)
         {
             space.GetComponent<Space>().PossibleSpace = false;
@@ -315,13 +307,15 @@ public class MapObject : MonoBehaviour
         return -1;
     }
 
-    void DoubleEnemiesForTruckRoute()
+    void SetEnemyAmount()
     {
-        if (ps[PlayerTurn].pathKey.Equals(keyNames[1])) //if player is on truck route, double enemies
+        int nextEnemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease;
+        if (nextEnemyAmount <= enemyLimit)
+            enemyAmount = nextEnemyAmount;
+        if (enemyPhase && ps[PlayerTurn].pathKey.Equals(keyNames[1])) //if player is on truck route, double enemies
             enemyAmount *= 2;
-        else
-            enemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease;
-        enemyAmountText.text = "Number Of Enemies: " + enemyAmount; //update text
+
+        enemyAmountText.text = "Number Of Enemies: " + enemyAmount + " (" + enemyAmount * 2 + ")";
     }
 
     public void ShowTextForSpace (GameObject text)
@@ -486,7 +480,7 @@ public class MapObject : MonoBehaviour
             turnText.text = "Player's Turn: " + (PlayerTurn + 1);
             playerCombatPoints = 0;
 
-            DoubleEnemiesForTruckRoute();
+            SetEnemyAmount(); //make sure enemyPhase is true before this call
         }
         else
         {
@@ -494,7 +488,7 @@ public class MapObject : MonoBehaviour
             phaseText.text = "Move Phase";
             rollButton.interactable = true;
             PlayerTurn = -1;
-            GameRound++;
+            GameRound++; //make sure enemyPhase is false before this call
         }
     }
 
@@ -532,9 +526,6 @@ public class MapObject : MonoBehaviour
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
 
-        //PlayerTurn = 0;
-        //turnText.text = "Player's Turn: " + (PlayerTurn + 1);
-        //ShowPossibleSpaces(PlayerTurn, rollMoves);
         PlayerTurn = -1;
         NextMoveTurn();
     }
@@ -555,42 +546,8 @@ public class MapObject : MonoBehaviour
         string card = vendingMachineCards[Random.Range(0, vendingMachineCards.Count)];
         vendingMachineCards.Remove(card);
         ps[playerNum].vendingMachineCards.Add(card);
-
-        //int cardIndex = -1;
-        //for (int i = 0; i < vendingMachineCardNames.Length; i++) //find which card the player drew
-        //    if (vendingMachineCardNames[i].Equals(card))
-        //        cardIndex = i;
-
-        //switch (cardIndex)
-        //{
-        //    case 0: //Robot carrying box (plus 1 stealth stat)
-
-        //        break;
-        //    case 1: //Barrel rolls through lasers (plus 1 stealth) 
-
-        //        break;
-        //    case 2: //Bucket zipline (plus 1 movement minus 1 stealth)
-
-        //        break;
-        //    case 3: //Elevator (skip a enemy phase)
-
-        //        break;
-        //    default:
-        //        Debug.LogError("couldn't find vending machine card");
-        //        break;
-        //}
-
-        //UpdatePlayerCards(playerNum);
     }
-    bool HasVendingMachineCard(int playerNum, string card)
-    {
-        //if (vendingMachineCardNames[3].Equals(card)) //card that is a one time use
-        //{
-        //    ps[playerNum].vendingMachineCards.Contains(card);
-        //}
-
-        return ps[playerNum].vendingMachineCards.Contains(card);
-    }
+    bool HasVendingMachineCard(int playerNum, string card) => ps[playerNum].vendingMachineCards.Contains(card);
 
     void UpdatePlayerCards(int playerNum)
     {
@@ -599,5 +556,12 @@ public class MapObject : MonoBehaviour
             listOfCards += "|" + card;
 
         playerCardsText[playerNum].text = "Player " + (playerNum + 1) + ": " + listOfCards;
+    }
+    public void UseElevatorCard()
+    {
+        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3]))
+        {
+            NextEnemyPhaseTurn();
+        }
     }
 }
