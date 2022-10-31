@@ -30,21 +30,38 @@ public class PlayerScript : MonoBehaviour
         GetComponent<MeshRenderer>().material = mo.playerMaterials[playerNum];
     }
 
-    private void FixedUpdate()
+    //private void FixedUpdate()
+    //{
+    //    if (!outline.enabled && mo.PlayerTurn == playerNum) //this player's turn
+    //    {
+    //        outline.enabled = true;
+    //        transform.position -= mo.playerOffsets[playerNum]; //place player in the center
+    //        transform.position -= Vector3.forward; //place player in front of other players
+    //        ChangePlayerScale(mo.playerScaleDuringTurn); //make player bigger
+    //    }
+    //    else if (outline.enabled && mo.PlayerTurn != playerNum) //not this player's turn
+    //    {
+    //        outline.enabled = false;
+    //        ChangePlayerScale(mo.playerScaleNotDuringTurn); //make player smaller
+    //    }
+    //}
+
+    void ChangePlayerScale(float newScale) => transform.localScale = new Vector3(newScale, newScale, 1);
+
+    public void PlayerTurn(bool isPlayerTurn)
     {
-        if (!outline.enabled && mo.PlayerTurn == playerNum) //this player's turn
+        if (isPlayerTurn) //this player's turn
         {
             outline.enabled = true;
-            transform.position -= mo.playerOffsets[playerNum]; //place player in the center
+            mo.MovePlayer(playerNum, pathKey, spaceIndex, false, true); //place player in the center
             transform.position -= Vector3.forward; //place player in front of other players
             ChangePlayerScale(mo.playerScaleDuringTurn); //make player bigger
         }
-        else if (outline.enabled && mo.PlayerTurn != playerNum) //not this player's turn
+        else //not this player's turn
         {
-            outline.enabled = false;
-            ChangePlayerScale(mo.playerScaleNotDuringTurn); //make player smaller
+            outline.enabled = false; 
+            mo.MovePlayer(playerNum, pathKey, spaceIndex, false, false); //place player offset
+            ChangePlayerScale(mo.playerScaleNotDuringTurn); //return player back to normal scale
         }
     }
-
-    void ChangePlayerScale(float newScale) => transform.localScale = new Vector3(newScale, newScale, 1);
 }

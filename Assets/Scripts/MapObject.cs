@@ -40,7 +40,17 @@ public class MapObject : MonoBehaviour
         {
             playerTurn = value;
 
-            turnText.color = playerMaterials[value].color;
+            if (value >= 0 && value < players.Length)
+            {
+                turnText.color = playerMaterials[value].color;
+
+                ps[value].PlayerTurn(true);
+                //disable the previous player's turn state unless there is one player
+                if (players.Length > 1 && value != 0)
+                    ps[value - 1].PlayerTurn(false); //player before
+            }
+            if (value == -1)
+                ps[players.Length - 1].PlayerTurn(false); //last player
         }
         get { return playerTurn; }
     }
@@ -61,8 +71,6 @@ public class MapObject : MonoBehaviour
             gameRound = value;
             enemyAmount = (value + enemyIncrease - 1) / enemyIncrease;
             enemyAmountText.text = "Number Of Enemies: " + enemyAmount;
-
-            PlayerTurn = 0;
         }
         get { return gameRound; }
     }
@@ -78,6 +86,7 @@ public class MapObject : MonoBehaviour
     public GameObject extraCardSpaceText;
     public GameObject questStartSpaceText;
     public GameObject questEndSpaceText;
+    public GameObject vendingMachineSpaceText;
     public Vector3 specialSpaceTextOffset;
 
     void Awake()
@@ -229,30 +238,27 @@ public class MapObject : MonoBehaviour
                 RemoveCard(PlayerTurn, 9 - 1);
             if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
             {
-                if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[0])) //Robot carrying box (plus 1 stealth stat)
+                //Robot carrying box (plus 1 stealth stat)
+                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[0]))
                     playerCombatPoints += 1;
-                if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[1]))
+                //Barrel rolls through lasers (plus 1 stealth)
+                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[1]))
                     playerCombatPoints += 1;
-                if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[2]))
+                //Bucket zipline (plus 1 movement minus 1 stealth)
+                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[2]))
                     playerCombatPoints -= 1;
 
                 if ((enemyAmount * 2) - playerCombatPoints > 0) //player didn't eliminate all enemies
                     PushBackPlayer(PlayerTurn, ((enemyAmount * 2) - playerCombatPoints + 1) / 2);
 
-                if (PlayerTurn + 1 < players.Length)
+                NextEnemyPhaseTurn();
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                //Elevator (skip an enemy phase)
+                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3]))
                 {
-                    PlayerTurn++;
-                    turnText.text = "Player's Turn: " + (PlayerTurn + 1);
-                    playerCombatPoints = 0;
-
-                    DoubleEnemiesForTruckRoute();
-                }
-                else
-                {
-                    enemyPhase = false;
-                    phaseText.text = "Move Phase";
-                    rollButton.interactable = true;
-                    GameRound++;
+                    NextEnemyPhaseTurn();
                 }
             }
         }
@@ -328,6 +334,7 @@ public class MapObject : MonoBehaviour
         extraCardSpaceText.SetActive(false);
         questStartSpaceText.SetActive(false);
         questEndSpaceText.SetActive(false);
+        vendingMachineSpaceText.SetActive(false);
     }
     public void ChangeTextForSpaceColor(string pathKey, int spaceIndex)
     {
@@ -423,13 +430,18 @@ public class MapObject : MonoBehaviour
         return -1; //path emtpy
     }
 
-    public void MovePlayer(int playerNum, string pathKey, int spaceIndex, bool pushedBack)
+    public void MovePlayer(int playerNum, string pathKey, int spaceIndex, bool spaceChosen, bool center)
     {
-        players[playerNum].transform.position = paths[pathKey][spaceIndex].transform.position + playerOffsets[playerNum];
+        Vector3 spacePos = paths[pathKey][spaceIndex].transform.position;
+        if (center)
+            players[playerNum].transform.position = spacePos;
+        else
+            players[playerNum].transform.position = spacePos + playerOffsets[playerNum];
+
         ps[playerNum].pathKey = pathKey;
         ps[playerNum].spaceIndex = spaceIndex;
 
-        if (!pushedBack) //if player is deciding to move to this space, check if the space is special
+        if (!spaceChosen) //if player is deciding to move to this space, check if the space is special
         {
             if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
                 DrawCard(playerNum);
@@ -446,7 +458,7 @@ public class MapObject : MonoBehaviour
             turnText.text = "Player's Turn: " + (PlayerTurn + 1);
 
             //Bucket zipline (plus 1 movement minus 1 stealth)
-            if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[3])) 
+            if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3])) 
                 ShowPossibleSpaces(PlayerTurn, rollMoves + 1); 
             else
                 ShowPossibleSpaces(PlayerTurn, rollMoves);
@@ -457,15 +469,32 @@ public class MapObject : MonoBehaviour
             {
                 DrawCard(i);
             }
-            playerCombatPoints = 0;
-            enemyPhase = true;
             phaseText.text = "Enemy Phase Enter 0 to Finish Turn";
-            PlayerTurn = 0;
-            turnText.text = "Player's Turn: " + (PlayerTurn + 1);
             rollText.text = "";
+            PlayerTurn = -1; //go back to first player
+            NextEnemyPhaseTurn();
 
             ResetAllPossibleSpace();
+        }
+    }
+    void NextEnemyPhaseTurn()
+    {
+        enemyPhase = true;
+        if (PlayerTurn + 1 < players.Length)
+        {
+            PlayerTurn++;
+            turnText.text = "Player's Turn: " + (PlayerTurn + 1);
+            playerCombatPoints = 0;
+
             DoubleEnemiesForTruckRoute();
+        }
+        else
+        {
+            enemyPhase = false;
+            phaseText.text = "Move Phase";
+            rollButton.interactable = true;
+            PlayerTurn = -1;
+            GameRound++;
         }
     }
 
@@ -474,7 +503,7 @@ public class MapObject : MonoBehaviour
         if (moves > 0)
         {
             if (ps[playerNum].spaceIndex - 1 >= 0)
-                MovePlayer(playerNum, ps[playerNum].pathKey, ps[playerNum].spaceIndex - 1, true);
+                MovePlayer(playerNum, ps[playerNum].pathKey, ps[playerNum].spaceIndex - 1, true, false);
             else
             {
                 foreach (Transform child in transform)
@@ -483,9 +512,9 @@ public class MapObject : MonoBehaviour
                     if (childSpaceScript.startOfConnectedPath)
                     {
                         if (childSpaceScript.connectedPath1.Equals(ps[playerNum].pathKey))
-                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true);
+                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true, false);
                         if (childSpaceScript.connectedPath2.Equals(ps[playerNum].pathKey))
-                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true);
+                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true, false);
                     }
                 }
             }
@@ -506,7 +535,7 @@ public class MapObject : MonoBehaviour
         //PlayerTurn = 0;
         //turnText.text = "Player's Turn: " + (PlayerTurn + 1);
         //ShowPossibleSpaces(PlayerTurn, rollMoves);
-        playerTurn = -1;
+        PlayerTurn = -1;
         NextMoveTurn();
     }
 
@@ -537,7 +566,7 @@ public class MapObject : MonoBehaviour
         //    case 0: //Robot carrying box (plus 1 stealth stat)
 
         //        break;
-        //    case 1: //Barrel rolls through lasers (plus 1 stealth)
+        //    case 1: //Barrel rolls through lasers (plus 1 stealth) 
 
         //        break;
         //    case 2: //Bucket zipline (plus 1 movement minus 1 stealth)
