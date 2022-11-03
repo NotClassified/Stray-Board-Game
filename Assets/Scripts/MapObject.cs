@@ -30,6 +30,7 @@ public class MapObject : MonoBehaviour
     public GameObject[] questEndSpaces;
     public GameObject[] vendingMachineSpaces;
     public List<string> vendingMachineCards;
+    Dictionary<string, bool[]> specialSpacesActivated = new Dictionary<string, bool[]>();
     string[] vendingMachineCardNames;
 
     public GameObject[] players;
@@ -204,6 +205,11 @@ public class MapObject : MonoBehaviour
         {
             vendingMachineCardNames[i] = vendingMachineCards[i];
         }
+
+        //intialize dictionary of special spaces to keep track when players land on these spaces
+        specialSpacesActivated.Add("vending machine", new bool[vendingMachineSpaces.Length]);
+        specialSpacesActivated.Add("quest start", new bool[questStartSpaces.Length]);
+        specialSpacesActivated.Add("quest end", new bool[questEndSpaces.Length]);
     }
 
     private void Start()
@@ -271,6 +277,28 @@ public class MapObject : MonoBehaviour
         }
         return false;
     }
+    public bool IsSpecialSpace(string pathKey, int spaceIndex, GameObject[] specialSpaces, bool activate, string activatedKey)
+    {
+        Space space;
+        for (int i = 0; i < specialSpaces.Length; i++)
+        {
+            space = specialSpaces[i].gameObject.GetComponent<Space>();
+            if (space.pathKey.Equals(pathKey) && space.spaceIndex == spaceIndex 
+                && !specialSpacesActivated[activatedKey][i]) //this space hasn't been landed on before
+            {
+                if (activate) //if player moves to this space
+                {
+                    //prevent space from being activated again 
+                    specialSpacesActivated[activatedKey][i] = true;
+                    //clear the color of the space to show that i can't be activated no more
+                    boardSpacesParent.Find(pathKey + spaceIndex).GetComponent<MeshRenderer>().material = normalSpaceMaterial;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     int WhichQuest(string pathKey, int spaceIndex)
     {
         for (int i = 0; i < questStartSpaces.Length; i++)
@@ -412,14 +440,14 @@ public class MapObject : MonoBehaviour
         {
             if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
                 DrawCard(playerNum);
-            else if (IsSpecialSpace(pathKey, spaceIndex, vendingMachineSpaces))
+            else if (IsSpecialSpace(pathKey, spaceIndex, vendingMachineSpaces, true, "vending machine"))
                 DrawVendingMachineCard(playerNum);
             //player starts quest if player hasn't started quest yet
-            else if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces) 
+            else if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces, true, "quest start") 
                      && !HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex)))
                 StartQuest(playerNum, WhichQuest(pathKey, spaceIndex));
             //player completes quest if player has started quest but hasn't completed quest yet
-            else if (IsSpecialSpace(pathKey, spaceIndex, questEndSpaces)
+            else if (IsSpecialSpace(pathKey, spaceIndex, questEndSpaces, true, "quest end")
                      && HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex))
                      && !HasCompletedQuestCard(playerNum, WhichQuest(pathKey, spaceIndex)))
                 CompleteQuest(playerNum, WhichQuest(pathKey, spaceIndex));
@@ -564,8 +592,8 @@ public class MapObject : MonoBehaviour
         string enemyAndPoints = enemyAmount + " (" + enemyAmount * 2 + ")";
         enemyAmountText.text = "Number Of Enemies: " + enemyAndPoints;
         enemyAmountEnemyPhaseText.text = enemyAndPoints;
-        enemiesLeftText.text = enemyAmount.ToString();
-        enemiesLeft = enemyAmount;
+        enemiesLeft = ((enemyAmount * 2) - playerCombatPoints + 1) / 2;
+        enemiesLeftText.text = enemiesLeft.ToString();
     }
 
     void PushBackPlayer(int playerNum, int moves)
@@ -623,27 +651,27 @@ public class MapObject : MonoBehaviour
             ps[playerNum].vendingMachineCards.Add(card);
 
             if (vendingMachineCardNames[2].Equals(card)) //Bucket zipline
-                playerCardsText[playerNum].text += "|+1 Move| ";
+                playerCardsText[playerNum].text += "|+1 Move|\n";
             if (vendingMachineCardNames[3].Equals(card)) //Elevator
-                playerCardsText[playerNum].text += "|Elevator| ";
+                playerCardsText[playerNum].text += "|Elevator|\n";
         }
     }
     bool HasVendingMachineCard(int playerNum, string card) => ps[playerNum].vendingMachineCards.Contains(card);
     void StartQuest(int playerNum, int questNum)
     {
         ps[playerNum].questCards.Add(questNum);
-        playerCardsText[playerNum].text += "|Started Quest " + (questNum + 1) + "| ";
+        playerCardsText[playerNum].text += "|Started Quest " + (questNum + 1) + "|\n";
     }
     bool HasQuestCard(int playerNum, int card) => ps[playerNum].questCards.Contains(card);
     void CompleteQuest(int playerNum, int questNum)
     {
         ps[playerNum].questCardsComplete.Add(questNum);
-        //delete |Started Quest #|
-        int oldTextIndex = playerCardsText[playerNum].text.IndexOf("|Started Quest " + (questNum + 1) + "| ");
+        //delete: |Started Quest #|
+        int oldTextIndex = playerCardsText[playerNum].text.IndexOf("|Started Quest " + (questNum + 1) + "|");
         playerCardsText[playerNum].text = playerCardsText[playerNum].text.Substring(0, oldTextIndex)
             + playerCardsText[playerNum].text.Substring(oldTextIndex + 18);
         //add new text: |Completed Quest #|
-        playerCardsText[playerNum].text += "|Completed Quest " + (questNum + 1) + "| ";
+        playerCardsText[playerNum].text += "|Completed Quest " + (questNum + 1) + "|";
     }
     bool HasCompletedQuestCard(int playerNum, int card) => ps[playerNum].questCardsComplete.Contains(card);
 

@@ -49,24 +49,28 @@ public class Space : MonoBehaviour
         //    name = pathKey + spaceIndex;
         //}
 
-        if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.extraCardSpaces)) //show text for extra card space
+        //show text for extra card space
+        if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.extraCardSpaces)) 
         {
             mo.ShowTextForSpace(mo.extraCardSpaceText);
             textShowing = true;
         }
-        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.questStartSpaces)) //show text for quest start space
+        //show text for quest start space
+        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.questStartSpaces, false, "quest start")) 
         {
             mo.ShowTextForSpace(mo.questStartSpaceText);
             mo.ChangeTextForSpaceColor(pathKey, spaceIndex);
             textShowing = true;
         }
-        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.questEndSpaces)) //show text for quest end space
+        //show text for quest end space
+        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.questEndSpaces, false, "quest end")) 
         {
             mo.ShowTextForSpace(mo.questEndSpaceText);
             mo.ChangeTextForSpaceColor(pathKey, spaceIndex);
             textShowing = true;
         }
-        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.vendingMachineSpaces)) //show text for Vending machine space
+        //show text for Vending machine space
+        else if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.vendingMachineSpaces, false, "vending machine")) 
         {
             mo.ShowTextForSpace(mo.vendingMachineSpaceText);
             textShowing = true;
