@@ -14,6 +14,8 @@ public class PlayerScript : MonoBehaviour
 
     public List<int> cards;
     public List<string> vendingMachineCards;
+    public List<int> questCards;
+    public List<int> questCardsComplete;
 
     private IEnumerator Start()
     {
@@ -29,22 +31,6 @@ public class PlayerScript : MonoBehaviour
 
         GetComponent<MeshRenderer>().material = mo.playerMaterials[playerNum];
     }
-
-    //private void FixedUpdate()
-    //{
-    //    if (!outline.enabled && mo.PlayerTurn == playerNum) //this player's turn
-    //    {
-    //        outline.enabled = true;
-    //        transform.position -= mo.playerOffsets[playerNum]; //place player in the center
-    //        transform.position -= Vector3.forward; //place player in front of other players
-    //        ChangePlayerScale(mo.playerScaleDuringTurn); //make player bigger
-    //    }
-    //    else if (outline.enabled && mo.PlayerTurn != playerNum) //not this player's turn
-    //    {
-    //        outline.enabled = false;
-    //        ChangePlayerScale(mo.playerScaleNotDuringTurn); //make player smaller
-    //    }
-    //}
 
     void ChangePlayerScale(float newScale) => transform.localScale = new Vector3(newScale, newScale, 1);
 

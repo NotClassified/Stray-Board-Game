@@ -17,14 +17,11 @@ public class Space : MonoBehaviour
 
             if (value)
             {
-                //GetComponent<MeshRenderer>().material = mo.playerMaterial[mo.PlayerTurn];
                 GetComponent<MeshRenderer>().material = mo.possibleSpaceMaterial;
-                //gameObject.SetActive(true);
             }
             else
             {
                 GetComponent<MeshRenderer>().material = mo.impossibleSpaceMaterial;
-                //gameObject.SetActive(false);
             }
         }
         get
@@ -42,14 +39,15 @@ public class Space : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (pathKey == "" && Input.GetKey(KeyCode.LeftControl)) //for initializing space variables
-        {
-            //GetComponent<MeshRenderer>().material = mo.spaceMaterial;
-            spaceIndex = mo.SetSpaceIndex(gameObject);
-            pathKey = mo.SetPathKey();
+        //for initializing space variables
+        //if (pathKey == "" && Input.GetKey(KeyCode.LeftControl)) 
+        //{
+        //    //GetComponent<MeshRenderer>().material = mo.spaceMaterial;
+        //    spaceIndex = mo.SetSpaceIndex(gameObject);
+        //    pathKey = mo.SetPathKey();
 
-            name = pathKey + spaceIndex;
-        }
+        //    name = pathKey + spaceIndex;
+        //}
 
         if (mo.IsSpecialSpace(pathKey, spaceIndex, mo.extraCardSpaces)) //show text for extra card space
         {
@@ -88,7 +86,7 @@ public class Space : MonoBehaviour
     {
         if (PossibleSpace)
         {
-            mo.MovePlayer(mo.PlayerTurn, pathKey, spaceIndex, false, false);
+            mo.MovePlayer(mo.PlayerTurn, pathKey, spaceIndex, true, false);
             mo.NextMoveTurn();
         }
     }

@@ -60,7 +60,9 @@ public class MapObject : MonoBehaviour
     public float playerScaleNotDuringTurn;
 
     int enemyAmount = 0;
+    int enemiesLeft;
     int playerCombatPoints;
+    int playerExtraCombatPoints;
     public int enemyIncrease = 2;
     public int enemyLimit;
     bool enemyPhase = false;
@@ -81,13 +83,26 @@ public class MapObject : MonoBehaviour
     public TextMeshProUGUI phaseText;
     public TextMeshProUGUI enemyAmountText;
     public Button rollButton;
+    public Button elevatorButton;
     public TextMeshProUGUI[] playerCardsText;
+    public TextMeshProUGUI extraStatsText;
 
     public GameObject extraCardSpaceText;
     public GameObject questStartSpaceText;
     public GameObject questEndSpaceText;
     public GameObject vendingMachineSpaceText;
     public Vector3 specialSpaceTextOffset;
+
+    public GameObject enemyPhaseScreenParent;
+    public Button showEnemyPhaseScreenButton;
+    public TextMeshProUGUI showEnemyPhaseScreenText;
+    public TextMeshProUGUI enemyAmountEnemyPhaseText;
+    public TextMeshProUGUI enemiesLeftText;
+
+    public Transform playerCardsParent;
+    List<int> selectedPlayerCards = new List<int>();
+    public Color32 cardSelectedColor;
+    public Color32 cardNotSelectedColor;
 
     void Awake()
     {
@@ -205,61 +220,25 @@ public class MapObject : MonoBehaviour
             players[i].transform.position = paths[keyNames[0]][0].transform.position + playerOffsets[i]; //starting position
             playerCardsText[i].color = playerMaterials[i].color;
         }
-        phaseText.text = "Move Phase";
+        phaseText.text = "Roll Phase";
+        turnText.text = "";
+        rollButton.interactable = true;
+        showEnemyPhaseScreenButton.interactable = false;
+        if (IsEnemyPhaseScreenVisible())
+            ToggleEnemyPhaseScreen();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N)) //for initializing space variables
-        {
-            spaceIndex = 0;
-            keyNameIndex++;
-        }
-
-        if (enemyPhase)
-        {
-            if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
-                RemoveCard(PlayerTurn, 1 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
-                RemoveCard(PlayerTurn, 2 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3))
-                RemoveCard(PlayerTurn, 3 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4))
-                RemoveCard(PlayerTurn, 4 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5))
-                RemoveCard(PlayerTurn, 5 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6))
-                RemoveCard(PlayerTurn, 6 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7))
-                RemoveCard(PlayerTurn, 7 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8))
-                RemoveCard(PlayerTurn, 8 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9))
-                RemoveCard(PlayerTurn, 9 - 1);
-            if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                //Robot carrying box (plus 1 stealth stat)
-                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[0]))
-                    playerCombatPoints += 1;
-                //Barrel rolls through lasers (plus 1 stealth)
-                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[1]))
-                    playerCombatPoints += 1;
-                //Bucket zipline (plus 1 movement minus 1 stealth)
-                if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[2]))
-                    playerCombatPoints -= 1;
-
-                if ((enemyAmount * 2) - playerCombatPoints > 0) //player didn't eliminate all enemies
-                    PushBackPlayer(PlayerTurn, ((enemyAmount * 2) - playerCombatPoints + 1) / 2);
-
-                NextEnemyPhaseTurn();
-            }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                UseElevatorCard(); //skip an enemy phase
-            }
-        }
+        //for initializing space variables
+        //if (Input.GetKeyDown(KeyCode.N)) 
+        //{
+        //    spaceIndex = 0;
+        //    keyNameIndex++;
+        //}
     }
 
+    #region SPACES
     void ResetAllPossibleSpace()
     {
         foreach (GameObject space in possibleSpaces)
@@ -305,18 +284,7 @@ public class MapObject : MonoBehaviour
                 return i;
         }
         return -1;
-    }
-
-    void SetEnemyAmount()
-    {
-        int nextEnemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease;
-        if (nextEnemyAmount <= enemyLimit)
-            enemyAmount = nextEnemyAmount;
-        if (enemyPhase && ps[PlayerTurn].pathKey.Equals(keyNames[1])) //if player is on truck route, double enemies
-            enemyAmount *= 2;
-
-        enemyAmountText.text = "Number Of Enemies: " + enemyAmount + " (" + enemyAmount * 2 + ")";
-    }
+    } 
 
     public void ShowTextForSpace (GameObject text)
     {
@@ -338,8 +306,10 @@ public class MapObject : MonoBehaviour
 
         if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces))
         {
-            //TextMeshProUGUI text = questStartSpaceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI text = questStartSpaceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             Image image = questStartSpaceText.transform.GetChild(0).GetComponent<Image>();
+
+            text.text = "Quest " + (questNum + 1) + " Start";
             //text.color = questStartSpaceMaterials[questNum].color;
             //make back image slightly transparent
             var tempColor = questStartSpaceMaterials[questNum].color;
@@ -348,8 +318,10 @@ public class MapObject : MonoBehaviour
         }
         else if (IsSpecialSpace(pathKey, spaceIndex, questEndSpaces))
         {
-            //TextMeshProUGUI text = questEndSpaceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI text = questEndSpaceText.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             Image image = questEndSpaceText.transform.GetChild(0).GetComponent<Image>();
+
+            text.text = "Quest " + (questNum + 1) + " End";
             //text.color = questEndSpaceMaterials[questNum].color;
             //make back image slightly transparent
             var tempColor = questEndSpaceMaterials[questNum].color;
@@ -423,8 +395,9 @@ public class MapObject : MonoBehaviour
         }
         return -1; //path emtpy
     }
+    #endregion
 
-    public void MovePlayer(int playerNum, string pathKey, int spaceIndex, bool spaceChosen, bool center)
+    public void MovePlayer(int playerNum, string pathKey, int spaceIndex, bool spaceChosenByPlayer, bool center)
     {
         Vector3 spacePos = paths[pathKey][spaceIndex].transform.position;
         if (center)
@@ -435,12 +408,21 @@ public class MapObject : MonoBehaviour
         ps[playerNum].pathKey = pathKey;
         ps[playerNum].spaceIndex = spaceIndex;
 
-        if (!spaceChosen) //if player is deciding to move to this space, check if the space is special
+        if (spaceChosenByPlayer) //if player is deciding to move to this space, check if the space is special
         {
             if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
                 DrawCard(playerNum);
             else if (IsSpecialSpace(pathKey, spaceIndex, vendingMachineSpaces))
                 DrawVendingMachineCard(playerNum);
+            //player starts quest if player hasn't started quest yet
+            else if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces) 
+                     && !HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex)))
+                StartQuest(playerNum, WhichQuest(pathKey, spaceIndex));
+            //player completes quest if player has started quest but hasn't completed quest yet
+            else if (IsSpecialSpace(pathKey, spaceIndex, questEndSpaces)
+                     && HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex))
+                     && !HasCompletedQuestCard(playerNum, WhichQuest(pathKey, spaceIndex)))
+                CompleteQuest(playerNum, WhichQuest(pathKey, spaceIndex));
         }
     }
 
@@ -463,10 +445,14 @@ public class MapObject : MonoBehaviour
             {
                 DrawCard(i);
             }
-            phaseText.text = "Enemy Phase Enter 0 to Finish Turn";
+            phaseText.text = "Stealth Phase";
             rollText.text = "";
             PlayerTurn = -1; //go back to first player
             NextEnemyPhaseTurn();
+
+            ToggleEnemyPhaseScreen(); //show screen
+            showEnemyPhaseScreenButton.interactable = true;
+            UpdatePlayerCardsForEnemyPhase();
 
             ResetAllPossibleSpace();
         }
@@ -479,17 +465,107 @@ public class MapObject : MonoBehaviour
             PlayerTurn++;
             turnText.text = "Player's Turn: " + (PlayerTurn + 1);
             playerCombatPoints = 0;
+            playerExtraCombatPoints = 0;
+            selectedPlayerCards.Clear();
+
+            //Activate Elevator Button if the player has the elevator card
+            elevatorButton.interactable = HasVendingMachineCard(playerTurn, vendingMachineCardNames[3]);
+            //give extra stats if the player has certain vending machine cards
+            if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[0])) //Robot carrying box
+                playerExtraCombatPoints++;
+            if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[1])) //Barrel rolls through lasers
+                playerExtraCombatPoints++;
+            if (HasVendingMachineCard(playerTurn, vendingMachineCardNames[2])) //Bucket zipline
+                playerExtraCombatPoints--;
+            if (HasCompletedQuestCard(playerTurn, 1)) //What’s B-12 real name? (Quest 2)
+                playerExtraCombatPoints += 4;
+
+            if (playerExtraCombatPoints > 0)
+                extraStatsText.text = "Extra Stealth Points: +" + playerExtraCombatPoints;
+            else
+                extraStatsText.text = "Extra Stealth Points: " + playerExtraCombatPoints;
+            playerCombatPoints += playerExtraCombatPoints;
 
             SetEnemyAmount(); //make sure enemyPhase is true before this call
+            UpdatePlayerCardsForEnemyPhase();
         }
         else
         {
             enemyPhase = false;
-            phaseText.text = "Move Phase";
+            phaseText.text = "Roll Phase";
             rollButton.interactable = true;
+            turnText.text = "";
+
+            if (IsEnemyPhaseScreenVisible())
+                ToggleEnemyPhaseScreen(); //hide screen
+            showEnemyPhaseScreenButton.interactable = false;
+
             PlayerTurn = -1;
             GameRound++; //make sure enemyPhase is false before this call
         }
+    }
+    public void FinishEnemyPhaseTurn() //calculate the amount of enemies the player passed
+    {
+        //Robot carrying box (plus 1 stealth stat)
+        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[0]))
+            playerCombatPoints += 1;
+        //Barrel rolls through lasers (plus 1 stealth)
+        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[1]))
+            playerCombatPoints += 1;
+        //Bucket zipline (plus 1 movement minus 1 stealth)
+        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[2]))
+            playerCombatPoints -= 1;
+
+        while (selectedPlayerCards.Count > 0)
+        {
+            int maxIndex = 0;
+            foreach (int cardIndex in selectedPlayerCards)
+            {
+                if (cardIndex > maxIndex)
+                    maxIndex = cardIndex;
+            }
+            playerCombatPoints += ps[PlayerTurn].cards[maxIndex];
+            ps[PlayerTurn].cards.RemoveAt(maxIndex);
+            selectedPlayerCards.Remove(maxIndex);
+        }
+
+        //int enemyPointsLeft = (enemyAmount * 2) - playerCombatPoints;
+        //if (enemyPointsLeft > 0) //player didn't eliminate all enemies
+        //    PushBackPlayer(PlayerTurn, (enemyPointsLeft + 1) / 2);
+        if (enemiesLeft > 0) //player didn't eliminate all enemies
+            PushBackPlayer(PlayerTurn, enemiesLeft);
+
+        NextEnemyPhaseTurn();
+    }
+    bool IsEnemyPhaseScreenVisible() => enemyPhaseScreenParent.activeSelf;
+    public void ToggleEnemyPhaseScreen()
+    {
+        bool active = !enemyPhaseScreenParent.activeSelf;
+        enemyPhaseScreenParent.SetActive(active);
+        if (active)
+            showEnemyPhaseScreenText.text = "Show Stealth\nPhase Screen";
+        else
+            showEnemyPhaseScreenText.text = "Hide Stealth\nPhase Screen";
+    }
+    void SetEnemyAmount()
+    {
+        int nextEnemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease;
+        if (nextEnemyAmount <= enemyLimit)
+            enemyAmount = nextEnemyAmount;
+        if (enemyPhase) //prevent out of bounds exception
+        {
+            if (ps[PlayerTurn].pathKey.Equals(keyNames[1])) //if player is on truck route, double enemies
+                enemyAmount *= 2;
+
+            if (HasCompletedQuestCard(PlayerTurn, 0)) //if player has completed: Feeling cold (Quest 1)
+                enemyAmount /= 2;
+        }
+
+        string enemyAndPoints = enemyAmount + " (" + enemyAmount * 2 + ")";
+        enemyAmountText.text = "Number Of Enemies: " + enemyAndPoints;
+        enemyAmountEnemyPhaseText.text = enemyAndPoints;
+        enemiesLeftText.text = enemyAmount.ToString();
+        enemiesLeft = enemyAmount;
     }
 
     void PushBackPlayer(int playerNum, int moves)
@@ -497,7 +573,7 @@ public class MapObject : MonoBehaviour
         if (moves > 0)
         {
             if (ps[playerNum].spaceIndex - 1 >= 0)
-                MovePlayer(playerNum, ps[playerNum].pathKey, ps[playerNum].spaceIndex - 1, true, false);
+                MovePlayer(playerNum, ps[playerNum].pathKey, ps[playerNum].spaceIndex - 1, false, false);
             else
             {
                 foreach (Transform child in transform)
@@ -506,9 +582,9 @@ public class MapObject : MonoBehaviour
                     if (childSpaceScript.startOfConnectedPath)
                     {
                         if (childSpaceScript.connectedPath1.Equals(ps[playerNum].pathKey))
-                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true, false);
+                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, false, false);
                         if (childSpaceScript.connectedPath2.Equals(ps[playerNum].pathKey))
-                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, true, false);
+                            MovePlayer(playerNum, childSpaceScript.pathKey, childSpaceScript.spaceIndex, false, false);
                     }
                 }
             }
@@ -523,8 +599,11 @@ public class MapObject : MonoBehaviour
     public void Roll()
     {
         rollMoves = Random.Range(1, 7);
+        rollMoves = 6; print("rollMoves set to 6"); //for testing
+
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
+        phaseText.text = "Move Phase";
 
         PlayerTurn = -1;
         NextMoveTurn();
@@ -533,35 +612,95 @@ public class MapObject : MonoBehaviour
     void DrawCard(int playerNum)
     {
         ps[playerNum].cards.Add(Random.Range(1, 8));
-        UpdatePlayerCards(playerNum);
-    }
-    void RemoveCard(int playerNum, int card)
-    {
-        playerCombatPoints += ps[playerNum].cards[card];
-        ps[playerNum].cards.RemoveAt(card);
-        UpdatePlayerCards(playerNum);
+        //UpdatePlayerCards(playerNum);
     }
     void DrawVendingMachineCard(int playerNum)
     {
-        string card = vendingMachineCards[Random.Range(0, vendingMachineCards.Count)];
-        vendingMachineCards.Remove(card);
-        ps[playerNum].vendingMachineCards.Add(card);
+        if (vendingMachineCards.Count > 0)
+        {
+            string card = vendingMachineCards[Random.Range(0, vendingMachineCards.Count)];
+            vendingMachineCards.Remove(card);
+            ps[playerNum].vendingMachineCards.Add(card);
+
+            if (vendingMachineCardNames[2].Equals(card)) //Bucket zipline
+                playerCardsText[playerNum].text += "|+1 Move| ";
+            if (vendingMachineCardNames[3].Equals(card)) //Elevator
+                playerCardsText[playerNum].text += "|Elevator| ";
+        }
     }
     bool HasVendingMachineCard(int playerNum, string card) => ps[playerNum].vendingMachineCards.Contains(card);
-
-    void UpdatePlayerCards(int playerNum)
+    void StartQuest(int playerNum, int questNum)
     {
-        string listOfCards = "";
-        foreach (int card in ps[playerNum].cards)
-            listOfCards += "|" + card;
+        ps[playerNum].questCards.Add(questNum);
+        playerCardsText[playerNum].text += "|Started Quest " + (questNum + 1) + "| ";
+    }
+    bool HasQuestCard(int playerNum, int card) => ps[playerNum].questCards.Contains(card);
+    void CompleteQuest(int playerNum, int questNum)
+    {
+        ps[playerNum].questCardsComplete.Add(questNum);
+        //delete |Started Quest #|
+        int oldTextIndex = playerCardsText[playerNum].text.IndexOf("|Started Quest " + (questNum + 1) + "| ");
+        playerCardsText[playerNum].text = playerCardsText[playerNum].text.Substring(0, oldTextIndex)
+            + playerCardsText[playerNum].text.Substring(oldTextIndex + 18);
+        //add new text: |Completed Quest #|
+        playerCardsText[playerNum].text += "|Completed Quest " + (questNum + 1) + "| ";
+    }
+    bool HasCompletedQuestCard(int playerNum, int card) => ps[playerNum].questCardsComplete.Contains(card);
 
-        playerCardsText[playerNum].text = "Player " + (playerNum + 1) + ": " + listOfCards;
+    void UpdatePlayerCardsForEnemyPhase()
+    {
+        
+        int cardAmount = ps[PlayerTurn].cards.Count;
+        int cardIndex = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            Transform row = playerCardsParent.GetChild(i);
+            for (int j = 0; j < 3; j++)
+            {
+                Transform button = row.GetChild(j);
+                button.GetComponent<Button>().image.color = cardNotSelectedColor;
+
+                TextMeshProUGUI text = button.GetChild(0).GetComponent<TextMeshProUGUI>();
+                if (cardIndex < cardAmount)
+                    text.text = ps[PlayerTurn].cards[cardIndex++].ToString();
+                else
+                    text.text = "";
+            }
+        }
+    }
+    public void SelectPlayerCard(int cardIndex)
+    {
+        if (cardIndex < ps[PlayerTurn].cards.Count) //prevent player from choosing a blank button
+        {
+            //get the button the player selected
+            Button button = playerCardsParent.GetChild(cardIndex / 3).GetChild(cardIndex % 3).GetComponent<Button>();
+
+            if (!selectedPlayerCards.Contains(cardIndex))
+            {
+                selectedPlayerCards.Add(cardIndex);
+                //darken to show that this button is selected
+                button.image.color = cardSelectedColor;
+
+                playerCombatPoints += ps[PlayerTurn].cards[cardIndex];
+            }
+            else
+            {
+                selectedPlayerCards.Remove(cardIndex);
+                //lighten to show that this button is deselected
+                button.image.color = cardNotSelectedColor;
+
+                playerCombatPoints -= ps[PlayerTurn].cards[cardIndex];
+            }
+            enemiesLeft = ((enemyAmount * 2) - playerCombatPoints + 1) / 2;
+            if (enemiesLeft >= 0)
+                enemiesLeftText.text = enemiesLeft.ToString();
+            else
+                enemiesLeftText.text = "0";
+        }
     }
     public void UseElevatorCard()
     {
         if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3]))
-        {
             NextEnemyPhaseTurn();
-        }
     }
 }
