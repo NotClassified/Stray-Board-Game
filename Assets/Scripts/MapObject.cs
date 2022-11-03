@@ -652,7 +652,7 @@ public class MapObject : MonoBehaviour
     public void Roll()
     {
         rollMoves = Random.Range(1, 7);
-        rollMoves = 60; print("rollMoves set to " + rollMoves); //for testing
+        //rollMoves = 60; print("rollMoves set to " + rollMoves); //for testing
 
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
