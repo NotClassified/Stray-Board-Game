@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MapObject : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class MapObject : MonoBehaviour
     public Material[] questStartSpaceMaterials;
     public Material[] questEndSpaceMaterials;
     public Material vendinMachineMaterial;
+    public Material winningSpaceMaterial;
 
     public Material[] playerMaterials;
 
@@ -62,6 +64,9 @@ public class MapObject : MonoBehaviour
 
     int enemyAmount = 0;
     int enemiesLeft;
+    int enemyPoints;
+    public int enemyZurkPoints;
+    public int enemyDronePoints;
     int playerCombatPoints;
     int playerExtraCombatPoints;
     public int enemyIncrease = 2;
@@ -105,6 +110,10 @@ public class MapObject : MonoBehaviour
     public Color32 cardSelectedColor;
     public Color32 cardNotSelectedColor;
 
+    public GameObject winningSpace;
+    public GameObject winningScreen;
+    public TextMeshProUGUI winningText;
+
     void Awake()
     {
         //loading all pathways and space types
@@ -137,6 +146,8 @@ public class MapObject : MonoBehaviour
                     boardSpaceRenderer.material = questEndSpaceMaterials[WhichQuest(space.pathKey, space.spaceIndex)];
                 else if (IsSpecialSpace(space.pathKey, space.spaceIndex, vendingMachineSpaces)) //quest end space
                     boardSpaceRenderer.material = vendinMachineMaterial;
+                else if (paths[space.pathKey][space.spaceIndex] == winningSpace) //end space (winning space)
+                    boardSpaceRenderer.material = winningSpaceMaterial;
                 else //normal space
                     boardSpaceRenderer.material = normalSpaceMaterial;
             }
@@ -232,6 +243,7 @@ public class MapObject : MonoBehaviour
         showEnemyPhaseScreenButton.interactable = false;
         if (IsEnemyPhaseScreenVisible())
             ToggleEnemyPhaseScreen();
+        winningScreen.SetActive(false);
     }
 
     private void Update()
@@ -242,7 +254,10 @@ public class MapObject : MonoBehaviour
         //    spaceIndex = 0;
         //    keyNameIndex++;
         //}
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
+    public void Replay() => SceneManager.LoadScene(0);
 
     #region SPACES
     void ResetAllPossibleSpace()
@@ -298,6 +313,7 @@ public class MapObject : MonoBehaviour
         }
         return false;
     }
+    bool IsArea2Space(string pathKey, int spaceIndex) => paths[pathKey][spaceIndex].GetComponent<Space>().area2;
 
     int WhichQuest(string pathKey, int spaceIndex)
     {
@@ -436,21 +452,30 @@ public class MapObject : MonoBehaviour
         ps[playerNum].pathKey = pathKey;
         ps[playerNum].spaceIndex = spaceIndex;
 
+        ps[playerNum].area2 = IsArea2Space(pathKey, spaceIndex); //check whether if player is in area 2 or not
+
         if (spaceChosenByPlayer) //if player is deciding to move to this space, check if the space is special
         {
             if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
                 DrawCard(playerNum);
             else if (IsSpecialSpace(pathKey, spaceIndex, vendingMachineSpaces, true, "vending machine"))
                 DrawVendingMachineCard(playerNum);
+
             //player starts quest if player hasn't started quest yet
-            else if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces, true, "quest start") 
-                     && !HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex)))
+            else if (IsSpecialSpace(pathKey, spaceIndex, questStartSpaces, true, "quest start"))
                 StartQuest(playerNum, WhichQuest(pathKey, spaceIndex));
             //player completes quest if player has started quest but hasn't completed quest yet
-            else if (IsSpecialSpace(pathKey, spaceIndex, questEndSpaces, true, "quest end")
-                     && HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex))
-                     && !HasCompletedQuestCard(playerNum, WhichQuest(pathKey, spaceIndex)))
+            else if (HasQuestCard(playerNum, WhichQuest(pathKey, spaceIndex))
+                     && !HasCompletedQuestCard(playerNum, WhichQuest(pathKey, spaceIndex))
+                     && IsSpecialSpace(pathKey, spaceIndex, questEndSpaces, true, "quest end"))
                 CompleteQuest(playerNum, WhichQuest(pathKey, spaceIndex));
+
+            if (paths[pathKey][spaceIndex] == winningSpace) //player won
+            {
+                winningScreen.SetActive(true);
+                winningText.text = "Player " + (playerNum + 1) + " Wins!";
+                winningText.color = playerMaterials[playerNum].color;
+            }
         }
     }
 
@@ -534,15 +559,15 @@ public class MapObject : MonoBehaviour
     }
     public void FinishEnemyPhaseTurn() //calculate the amount of enemies the player passed
     {
-        //Robot carrying box (plus 1 stealth stat)
-        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[0]))
-            playerCombatPoints += 1;
-        //Barrel rolls through lasers (plus 1 stealth)
-        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[1]))
-            playerCombatPoints += 1;
-        //Bucket zipline (plus 1 movement minus 1 stealth)
-        if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[2]))
-            playerCombatPoints -= 1;
+        ////Robot carrying box (plus 1 stealth stat)
+        //if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[0]))
+        //    playerCombatPoints += 1;
+        ////Barrel rolls through lasers (plus 1 stealth)
+        //if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[1]))
+        //    playerCombatPoints += 1;
+        ////Bucket zipline (plus 1 movement minus 1 stealth)
+        //if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[2]))
+        //    playerCombatPoints -= 1;
 
         while (selectedPlayerCards.Count > 0)
         {
@@ -557,9 +582,6 @@ public class MapObject : MonoBehaviour
             selectedPlayerCards.Remove(maxIndex);
         }
 
-        //int enemyPointsLeft = (enemyAmount * 2) - playerCombatPoints;
-        //if (enemyPointsLeft > 0) //player didn't eliminate all enemies
-        //    PushBackPlayer(PlayerTurn, (enemyPointsLeft + 1) / 2);
         if (enemiesLeft > 0) //player didn't eliminate all enemies
             PushBackPlayer(PlayerTurn, enemiesLeft);
 
@@ -587,12 +609,15 @@ public class MapObject : MonoBehaviour
 
             if (HasCompletedQuestCard(PlayerTurn, 0)) //if player has completed: Feeling cold (Quest 1)
                 enemyAmount /= 2;
+
+            //if player is in area 2, set enemy points to enemy Drones points, otherwise set to enemy Zurk points
+            enemyPoints = ps[playerTurn].area2 ? enemyDronePoints : enemyZurkPoints;
         }
 
-        string enemyAndPoints = enemyAmount + " (" + enemyAmount * 2 + ")";
+        string enemyAndPoints = enemyAmount + " (" + enemyAmount * enemyPoints + ")";
         enemyAmountText.text = "Number Of Enemies: " + enemyAndPoints;
         enemyAmountEnemyPhaseText.text = enemyAndPoints;
-        enemiesLeft = ((enemyAmount * 2) - playerCombatPoints + 1) / 2;
+        enemiesLeft = ((enemyAmount * enemyPoints) + (enemyPoints - 1) - playerCombatPoints) / enemyPoints;
         enemiesLeftText.text = enemiesLeft.ToString();
     }
 
@@ -627,7 +652,7 @@ public class MapObject : MonoBehaviour
     public void Roll()
     {
         rollMoves = Random.Range(1, 7);
-        rollMoves = 6; print("rollMoves set to 6"); //for testing
+        rollMoves = 60; print("rollMoves set to " + rollMoves); //for testing
 
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
@@ -719,7 +744,7 @@ public class MapObject : MonoBehaviour
 
                 playerCombatPoints -= ps[PlayerTurn].cards[cardIndex];
             }
-            enemiesLeft = ((enemyAmount * 2) - playerCombatPoints + 1) / 2;
+            enemiesLeft = ((enemyAmount * enemyPoints) + (enemyPoints - 1) - playerCombatPoints) / enemyPoints;
             if (enemiesLeft >= 0)
                 enemiesLeftText.text = enemiesLeft.ToString();
             else

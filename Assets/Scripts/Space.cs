@@ -36,6 +36,7 @@ public class Space : MonoBehaviour
     public string connectedPath1;
     public string connectedPath2;
     public bool startOfConnectedPath;
+    public bool area2;
 
     private void OnMouseEnter()
     {

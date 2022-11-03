@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public int spaceIndex;
     public string pathKey = "";
     public int playerNum;
+    public bool area2;
 
     public MapObject mo;
     Outline outline;
@@ -16,6 +17,7 @@ public class PlayerScript : MonoBehaviour
     public List<string> vendingMachineCards;
     public List<int> questCards;
     public List<int> questCardsComplete;
+
 
     private IEnumerator Start()
     {
