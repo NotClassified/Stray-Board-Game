@@ -64,7 +64,7 @@ public class MapObject : MonoBehaviour
 
     int enemyAmount = 0;
     int enemiesLeft;
-    int enemyPoints;
+    int enemyPoints = 2;
     public int enemyZurkPoints;
     public int enemyDronePoints;
     int playerCombatPoints;
@@ -100,6 +100,7 @@ public class MapObject : MonoBehaviour
     public Vector3 specialSpaceTextOffset;
 
     public GameObject enemyPhaseScreenParent;
+    public Image enemyPhaseBackImage;
     public Button showEnemyPhaseScreenButton;
     public TextMeshProUGUI showEnemyPhaseScreenText;
     public TextMeshProUGUI enemyAmountEnemyPhaseText;
@@ -273,7 +274,7 @@ public class MapObject : MonoBehaviour
     {
         ResetAllPossibleSpace();
 
-        GoAlongPath(ps[playerNum].pathKey, ps[playerNum].spaceIndex, moves);
+        GoAlongPath(ps[playerNum].pathKey, ps[playerNum].spaceIndex, moves, true);
 
         foreach (GameObject possibleSpace in possibleSpaces)
         {
@@ -314,6 +315,7 @@ public class MapObject : MonoBehaviour
         return false;
     }
     bool IsArea2Space(string pathKey, int spaceIndex) => paths[pathKey][spaceIndex].GetComponent<Space>().area2;
+    bool IsForwardSpace(string pathKey, int spaceIndex) => paths[pathKey][spaceIndex].GetComponent<Space>().forwardSpace;
 
     int WhichQuest(string pathKey, int spaceIndex)
     {
@@ -374,37 +376,38 @@ public class MapObject : MonoBehaviour
         }
     }
 
-    void GoAlongPath(string pathKey, int spaceIndex, int movesLeft)
+    void GoAlongPath(string pathKey, int spaceIndex, int movesLeft, bool forwardSpace)
     {
         if (movesLeft >= 0 && !possibleSpaces.Contains(paths[pathKey][spaceIndex]))
         {
             possibleSpaces.Add(paths[pathKey][spaceIndex]);
+            paths[pathKey][spaceIndex].GetComponent<Space>().forwardSpace = forwardSpace;
 
             if (spaceIndex < FindEndOfPath(pathKey)) //forward
-                GoAlongPath(pathKey, spaceIndex + 1, movesLeft - 1);
-            else if (pathKey != keyNames[0]) //end of sidepath
+                GoAlongPath(pathKey, spaceIndex + 1, movesLeft - 1, true);
+            else if (pathKey != keyNames[0]) //if not main path
             {
-                foreach (Transform child in transform)
+                foreach (Transform child in transform) //find space that is after this end of sidepath space
                 {
                     Space childSpace = child.GetComponent<Space>();
                     if (childSpace.connectedPath1.Equals(pathKey) && !childSpace.startOfConnectedPath)
-                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1);
+                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1, true);
                     if (childSpace.connectedPath2.Equals(pathKey) && !childSpace.startOfConnectedPath)
-                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1);
+                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1, true);
                 }
             }
 
             if (spaceIndex > 0) //backward
-                GoAlongPath(pathKey, spaceIndex - 1, movesLeft - 1);
-            else if (pathKey != keyNames[0]) //leaving from sidpath entry
+                GoAlongPath(pathKey, spaceIndex - 1, movesLeft - 1, false);
+            else if (pathKey != keyNames[0]) //if not main path
             {
-                foreach (Transform child in transform)
+                foreach (Transform child in transform) //find space that is before this start of sidepath space
                 {
                     Space childSpace = child.GetComponent<Space>();
                     if (childSpace.connectedPath1.Equals(pathKey) && childSpace.startOfConnectedPath)
-                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1);
+                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1, false);
                     if (childSpace.connectedPath2.Equals(pathKey) && childSpace.startOfConnectedPath)
-                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1);
+                        GoAlongPath(childSpace.pathKey, childSpace.spaceIndex, movesLeft - 1, false);
                 }
             }
 
@@ -413,16 +416,16 @@ public class MapObject : MonoBehaviour
             if (sideSpace.connectedPath1 != "")
             {
                 if (sideSpace.startOfConnectedPath) //starting on a sidepath
-                    GoAlongPath(sideSpace.connectedPath1, 0, movesLeft - 1);
+                    GoAlongPath(sideSpace.connectedPath1, 0, movesLeft - 1, true);
                 else //going back to a sidepath
-                    GoAlongPath(sideSpace.connectedPath1, FindEndOfPath(sideSpace.connectedPath1), movesLeft - 1);
+                    GoAlongPath(sideSpace.connectedPath1, FindEndOfPath(sideSpace.connectedPath1), movesLeft - 1, true);
             }
             if (sideSpace.connectedPath2 != "")
             {
                 if (sideSpace.startOfConnectedPath)
-                    GoAlongPath(sideSpace.connectedPath2, 0, movesLeft - 1);
+                    GoAlongPath(sideSpace.connectedPath2, 0, movesLeft - 1, true);
                 else
-                    GoAlongPath(sideSpace.connectedPath2, FindEndOfPath(sideSpace.connectedPath2), movesLeft - 1);
+                    GoAlongPath(sideSpace.connectedPath2, FindEndOfPath(sideSpace.connectedPath2), movesLeft - 1, true);
             }
         }
 
@@ -470,6 +473,9 @@ public class MapObject : MonoBehaviour
                      && IsSpecialSpace(pathKey, spaceIndex, questEndSpaces, true, "quest end"))
                 CompleteQuest(playerNum, WhichQuest(pathKey, spaceIndex));
 
+            //skip enemy phase if player went backwards
+            ps[playerNum].skipEnemyPhase = !IsForwardSpace(pathKey, spaceIndex); 
+
             if (paths[pathKey][spaceIndex] == winningSpace) //player won
             {
                 winningScreen.SetActive(true);
@@ -501,11 +507,10 @@ public class MapObject : MonoBehaviour
             phaseText.text = "Stealth Phase";
             rollText.text = "";
             PlayerTurn = -1; //go back to first player
-            NextEnemyPhaseTurn();
 
             ToggleEnemyPhaseScreen(); //show screen
             showEnemyPhaseScreenButton.interactable = true;
-            UpdatePlayerCardsForEnemyPhase();
+            NextEnemyPhaseTurn();
 
             ResetAllPossibleSpace();
         }
@@ -513,13 +518,25 @@ public class MapObject : MonoBehaviour
     void NextEnemyPhaseTurn()
     {
         enemyPhase = true;
+
         if (PlayerTurn + 1 < players.Length)
         {
             PlayerTurn++;
+            //skip enemy phase for this player if player went backwards
+            if (ps[PlayerTurn].skipEnemyPhase)
+            {
+                NextEnemyPhaseTurn();
+                return;
+            }
+
             turnText.text = "Player's Turn: " + (PlayerTurn + 1);
             playerCombatPoints = 0;
             playerExtraCombatPoints = 0;
             selectedPlayerCards.Clear();
+            //set the transparent back image to player's color
+            var tempColor = playerMaterials[playerTurn].color;
+            tempColor.a = .8f;
+            enemyPhaseBackImage.color = tempColor;
 
             //Activate Elevator Button if the player has the elevator card
             elevatorButton.interactable = HasVendingMachineCard(playerTurn, vendingMachineCardNames[3]);

@@ -8,6 +8,7 @@ public class Space : MonoBehaviour
     public MapObject mo;
 
     bool textShowing;
+    public bool forwardSpace;
     private bool possibleSpace;
     public bool PossibleSpace
     {
