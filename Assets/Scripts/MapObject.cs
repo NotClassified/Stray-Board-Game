@@ -91,6 +91,9 @@ public class MapObject : MonoBehaviour
     public Button rollButton;
     public Button elevatorButton;
     public TextMeshProUGUI[] playerCardsText;
+    public TextMeshProUGUI drawCardText;
+    public GameObject drawCardTextParent;
+    public float drawCardTextDuration;
     public TextMeshProUGUI extraStatsText;
 
     public GameObject extraCardSpaceText;
@@ -460,7 +463,7 @@ public class MapObject : MonoBehaviour
         if (spaceChosenByPlayer) //if player is deciding to move to this space, check if the space is special
         {
             if (IsSpecialSpace(pathKey, spaceIndex, extraCardSpaces))
-                DrawCard(playerNum);
+                DrawCard(playerNum, true);
             else if (IsSpecialSpace(pathKey, spaceIndex, vendingMachineSpaces, true, "vending machine"))
                 DrawVendingMachineCard(playerNum);
 
@@ -502,7 +505,7 @@ public class MapObject : MonoBehaviour
         {
             for (int i = 0; i < players.Length; i++)
             {
-                DrawCard(i);
+                DrawCard(i, false);
             }
             phaseText.text = "Stealth Phase";
             rollText.text = "";
@@ -679,10 +682,12 @@ public class MapObject : MonoBehaviour
         NextMoveTurn();
     }
 
-    void DrawCard(int playerNum)
+    void DrawCard(int playerNum, bool extraCard)
     {
-        ps[playerNum].cards.Add(Random.Range(1, 8));
-        //UpdatePlayerCards(playerNum);
+        int cardPoints = Random.Range(1, 8);
+        ps[playerNum].cards.Add(cardPoints);
+        if (extraCard)
+            StartCoroutine(SetDrawCardText("Extra Card: " + cardPoints));
     }
     void DrawVendingMachineCard(int playerNum)
     {
@@ -692,10 +697,24 @@ public class MapObject : MonoBehaviour
             vendingMachineCards.Remove(card);
             ps[playerNum].vendingMachineCards.Add(card);
 
+            if (vendingMachineCardNames[0].Equals(card)) //Robot carrying box
+            {
+                StartCoroutine(SetDrawCardText("VM Card: " + vendingMachineCardNames[0]));
+            }
+            if (vendingMachineCardNames[1].Equals(card)) //Barrel rolls through lasers
+            {
+                StartCoroutine(SetDrawCardText("VM Card: " + vendingMachineCardNames[1]));
+            }
             if (vendingMachineCardNames[2].Equals(card)) //Bucket zipline
+            {
                 playerCardsText[playerNum].text += "|+1 Move|\n";
+                StartCoroutine(SetDrawCardText("VM Card: " + vendingMachineCardNames[2]));
+            }
             if (vendingMachineCardNames[3].Equals(card)) //Elevator
+            {
                 playerCardsText[playerNum].text += "|Elevator|\n";
+                StartCoroutine(SetDrawCardText("VM Card: " + vendingMachineCardNames[3]));
+            }
         }
     }
     bool HasVendingMachineCard(int playerNum, string card) => ps[playerNum].vendingMachineCards.Contains(card);
@@ -703,6 +722,7 @@ public class MapObject : MonoBehaviour
     {
         ps[playerNum].questCards.Add(questNum);
         playerCardsText[playerNum].text += "|Started Quest " + (questNum + 1) + "|\n";
+        StartCoroutine(SetDrawCardText("Started Quest"));
     }
     bool HasQuestCard(int playerNum, int card) => ps[playerNum].questCards.Contains(card);
     void CompleteQuest(int playerNum, int questNum)
@@ -714,6 +734,7 @@ public class MapObject : MonoBehaviour
             + playerCardsText[playerNum].text.Substring(oldTextIndex + 18);
         //add new text: |Completed Quest #|
         playerCardsText[playerNum].text += "|Completed Quest " + (questNum + 1) + "|";
+        StartCoroutine(SetDrawCardText("Completed Quest!"));
     }
     bool HasCompletedQuestCard(int playerNum, int card) => ps[playerNum].questCardsComplete.Contains(card);
 
@@ -772,5 +793,18 @@ public class MapObject : MonoBehaviour
     {
         if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3]))
             NextEnemyPhaseTurn();
+    }
+
+    IEnumerator SetDrawCardText (string text)
+    {
+        //show text
+        drawCardText.text = text;
+        drawCardTextParent.SetActive(true);
+
+        yield return new WaitForSeconds(drawCardTextDuration);
+
+        //hide text
+        drawCardTextParent.SetActive(false);
+        drawCardText.text = "";
     }
 }

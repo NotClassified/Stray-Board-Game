@@ -356,8 +356,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -555,6 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 9
   pathKey: 'Main - '
   connectedPath1: 
@@ -673,6 +674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -784,6 +786,7 @@ MonoBehaviour:
   vendingMachineCards: []
   questCards: 
   questCardsComplete: 
+  skipEnemyPhase: 0
 --- !u!23 &51169267
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -915,6 +918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Side Path 6 - '
   connectedPath1: 
@@ -1199,6 +1203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Main - '
   connectedPath1: 
@@ -1317,6 +1322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 29
   pathKey: 'Main - '
   connectedPath1: 
@@ -1435,6 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -1553,6 +1560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 14
   pathKey: 'Main - '
   connectedPath1: 
@@ -2394,6 +2402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -2730,6 +2739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 26
   pathKey: 'Main - '
   connectedPath1: 
@@ -2931,6 +2941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 7
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -4014,6 +4025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 17
   pathKey: 'Main - '
   connectedPath1: 
@@ -4215,6 +4227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Main - '
   connectedPath1: 
@@ -4333,6 +4346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 12
   pathKey: 'Main - '
   connectedPath1: 
@@ -4451,6 +4465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -4652,6 +4667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 8
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -5182,8 +5198,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5298,6 +5314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 7
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -5482,6 +5499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 23
   pathKey: 'Main - '
   connectedPath1: 
@@ -5600,6 +5618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -5718,6 +5737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 14
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -6251,6 +6271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 11
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -6452,6 +6473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -6605,6 +6627,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436678525}
   m_Mesh: {fileID: 6135835539813735878, guid: 650d2ef2e1cca2c47ac6a4e2bcb5ee70, type: 3}
+--- !u!1 &440651436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440651437}
+  - component: {fileID: 440651439}
+  - component: {fileID: 440651438}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &440651437
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440651436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1569977093}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1600, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &440651438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440651436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.42745098}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &440651439
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440651436}
+  m_CullTransparentMesh: 1
 --- !u!1 &443799732
 GameObject:
   m_ObjectHideFlags: 0
@@ -6653,6 +6751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -7340,6 +7439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 21
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -7977,6 +8077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 14
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -8230,6 +8331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 19
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -8584,6 +8686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 9
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -8702,6 +8805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 15
   pathKey: 'Main - '
   connectedPath1: 
@@ -8820,6 +8924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 18
   pathKey: 'Main - '
   connectedPath1: 
@@ -9238,6 +9343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 12
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -9515,6 +9621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 10
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -9633,6 +9740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -9751,6 +9859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -9869,6 +9978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 9
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -9987,6 +10097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 16
   pathKey: 'Main - '
   connectedPath1: 
@@ -10458,8 +10569,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10812,6 +10923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 12
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -10930,6 +11042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -11048,6 +11161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Side Path 6 - '
   connectedPath1: 
@@ -11249,6 +11363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -11606,8 +11721,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11722,6 +11837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 8
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -12006,6 +12122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -12124,6 +12241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -12459,6 +12577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -12795,6 +12914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 9
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -12913,6 +13033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 16
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -13197,6 +13318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -13513,6 +13635,9 @@ MonoBehaviour:
   - {fileID: 147565986}
   - {fileID: 1528992592}
   - {fileID: 279984929}
+  drawCardText: {fileID: 1692292095}
+  drawCardTextParent: {fileID: 1569977092}
+  drawCardTextDuration: 1
   extraStatsText: {fileID: 679886168}
   extraCardSpaceText: {fileID: 2012963335}
   questStartSpaceText: {fileID: 153098247}
@@ -13520,6 +13645,7 @@ MonoBehaviour:
   vendingMachineSpaceText: {fileID: 228940967}
   specialSpaceTextOffset: {x: 0, y: 50, z: 0}
   enemyPhaseScreenParent: {fileID: 1508766598}
+  enemyPhaseBackImage: {fileID: 1368640746}
   showEnemyPhaseScreenButton: {fileID: 1026859379}
   showEnemyPhaseScreenText: {fileID: 746550229}
   enemyAmountEnemyPhaseText: {fileID: 1159212278}
@@ -13885,6 +14011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -14003,6 +14130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 15
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -14422,6 +14550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 15
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -14689,6 +14818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Main - '
   connectedPath1: 
@@ -14890,6 +15020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 22
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -15091,6 +15222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -15209,6 +15341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -15845,6 +15978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -16085,6 +16219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -16203,6 +16338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 20
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -16404,6 +16540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 21
   pathKey: 'Main - '
   connectedPath1: 
@@ -16949,6 +17086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -17233,6 +17371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 11
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -17569,6 +17708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 19
   pathKey: 'Main - '
   connectedPath1: 
@@ -17905,6 +18045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 20
   pathKey: 'Main - '
   connectedPath1: 
@@ -18208,8 +18349,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -18400,6 +18541,7 @@ MonoBehaviour:
   vendingMachineCards: []
   questCards: 
   questCardsComplete: 
+  skipEnemyPhase: 0
 --- !u!23 &1173338853
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18531,6 +18673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 7
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -18732,6 +18875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 15
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -19027,6 +19171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -19553,6 +19698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Main - '
   connectedPath1: 
@@ -19671,6 +19817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -19865,6 +20012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 10
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -19983,6 +20131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -20184,6 +20333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 10
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -20302,6 +20452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Side Path 4 - '
   connectedPath1: 
@@ -20420,6 +20571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 24
   pathKey: 'Main - '
   connectedPath1: 
@@ -20922,6 +21074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 18
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -21059,8 +21212,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -21258,6 +21411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 10
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -21459,6 +21613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Side Path 6 - '
   connectedPath1: 
@@ -21660,6 +21815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -21797,8 +21953,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -22048,6 +22204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -22265,7 +22422,7 @@ GameObject:
   - component: {fileID: 1368640747}
   - component: {fileID: 1368640746}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Back Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22304,7 +22461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22587,6 +22744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 13
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -22705,6 +22863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 11
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -22990,6 +23149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 8
   pathKey: 'Main - '
   connectedPath1: 
@@ -23191,6 +23351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 7
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -23558,6 +23719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 16
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -23976,6 +24138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 13
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -24260,6 +24423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -24428,6 +24592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 28
   pathKey: 'Main - '
   connectedPath1: 
@@ -24899,6 +25064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -25100,6 +25266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 22
   pathKey: 'Main - '
   connectedPath1: 
@@ -25436,6 +25603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -25637,6 +25805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -25790,6 +25959,44 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564715831}
   m_Mesh: {fileID: -6078026931979926269, guid: 650d2ef2e1cca2c47ac6a4e2bcb5ee70, type: 3}
+--- !u!1 &1569977092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1569977093}
+  m_Layer: 5
+  m_Name: Draw Card Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1569977093
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569977092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 440651437}
+  - {fileID: 1692292094}
+  m_Father: {fileID: 1931623806}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1570719433
 GameObject:
   m_ObjectHideFlags: 0
@@ -25838,6 +26045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 8
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -25956,6 +26164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -26157,6 +26366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 12
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -26659,6 +26869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 14
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -26777,6 +26988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Main - '
   connectedPath1: 
@@ -26895,6 +27107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 13
   pathKey: 'Main - '
   connectedPath1: 
@@ -27249,8 +27462,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -27611,6 +27824,141 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669630697}
   m_Mesh: {fileID: -8113355971839332617, guid: 650d2ef2e1cca2c47ac6a4e2bcb5ee70, type: 3}
+--- !u!1 &1692292093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1692292094}
+  - component: {fileID: 1692292096}
+  - component: {fileID: 1692292095}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1692292094
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692292093}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1569977093}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1500, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1692292095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692292093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 155
+  m_fontSizeBase: 155
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 155.9
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1692292096
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692292093}
+  m_CullTransparentMesh: 1
 --- !u!1 &1699183299
 GameObject:
   m_ObjectHideFlags: 0
@@ -27659,6 +28007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -27860,6 +28209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -28196,6 +28546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 15
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -28314,6 +28665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 7
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -28425,6 +28777,7 @@ MonoBehaviour:
   vendingMachineCards: []
   questCards: 
   questCardsComplete: 
+  skipEnemyPhase: 0
 --- !u!23 &1723543464
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28556,6 +28909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -28942,8 +29296,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4283256141
+  m_fontColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -29276,6 +29630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 0
   pathKey: 'Side Path 6 - '
   connectedPath1: 
@@ -29477,6 +29832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 13
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -29761,6 +30117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Main - '
   connectedPath1: 
@@ -30128,6 +30485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 17
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -30329,6 +30687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -30589,6 +30948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -30707,6 +31067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 27
   pathKey: 'Main - '
   connectedPath1: 
@@ -30825,6 +31186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 25
   pathKey: 'Main - '
   connectedPath1: 
@@ -31026,6 +31388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 11
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -31201,6 +31564,7 @@ RectTransform:
   - {fileID: 1221484442}
   - {fileID: 1026859378}
   - {fileID: 1508766599}
+  - {fileID: 1569977093}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -31391,6 +31755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 16
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -31675,6 +32040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 12
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -31793,6 +32159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 7
   pathKey: 'Main - '
   connectedPath1: 
@@ -32530,6 +32897,7 @@ MonoBehaviour:
   vendingMachineCards: []
   questCards: 
   questCardsComplete: 
+  skipEnemyPhase: 0
 --- !u!23 &2012237756
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32699,6 +33067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 8
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -32983,6 +33352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 1
   pathKey: 'Main - '
   connectedPath1: 
@@ -33101,6 +33471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 9
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -33219,6 +33590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 13
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -33337,6 +33709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 5
   pathKey: 'Side Path 2 - '
   connectedPath1: 
@@ -33455,6 +33828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 4
   pathKey: 'Truck Route - '
   connectedPath1: 
@@ -33573,6 +33947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 3
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -33691,6 +34066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 14
   pathKey: 'Side Path 3 - '
   connectedPath1: 
@@ -33809,6 +34185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 6
   pathKey: 'Side Path 1 - '
   connectedPath1: 
@@ -34031,6 +34408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 2
   pathKey: 'Side Path 5 - '
   connectedPath1: 
@@ -34149,6 +34527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 11
   pathKey: 'Main - '
   connectedPath1: 
@@ -34485,6 +34864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mo: {fileID: 861071902}
+  forwardSpace: 0
   spaceIndex: 10
   pathKey: 'Main - '
   connectedPath1: 
