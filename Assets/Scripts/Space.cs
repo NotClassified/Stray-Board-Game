@@ -9,6 +9,7 @@ public class Space : MonoBehaviour
 
     bool textShowing;
     public bool forwardSpace;
+    Coroutine flashSpace;
     private bool possibleSpace;
     public bool PossibleSpace
     {
@@ -94,6 +95,21 @@ public class Space : MonoBehaviour
         {
             mo.MovePlayer(mo.PlayerTurn, pathKey, spaceIndex, true, false);
             mo.NextMoveTurn();
+        }
+    }
+
+    public void StartFlashSpace(float delay) => flashSpace = StartCoroutine(FlashSpace(delay));
+    public void StopFlashSpace() => StopCoroutine(flashSpace);
+    IEnumerator FlashSpace(float delay)
+    {
+        PossibleSpace = true;
+        while (PossibleSpace)
+        {
+            GetComponent<MeshRenderer>().material = mo.possibleSpaceMaterial;
+            yield return new WaitForSeconds(delay);
+
+            GetComponent<MeshRenderer>().material = mo.impossibleSpaceMaterial;
+            yield return new WaitForSeconds(delay);
         }
     }
 }

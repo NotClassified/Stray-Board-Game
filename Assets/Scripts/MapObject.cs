@@ -9,6 +9,7 @@ public class MapObject : MonoBehaviour
 {
     public Material normalSpaceMaterial;
     public Material possibleSpaceMaterial;
+    public float possibleSpaceFlashDelay;
     public Material impossibleSpaceMaterial;
 
     public Material extraSpaceMaterial;
@@ -286,6 +287,7 @@ public class MapObject : MonoBehaviour
         foreach (GameObject space in possibleSpaces)
         {
             space.GetComponent<Space>().PossibleSpace = false;
+            space.GetComponent<Space>().StopFlashSpace();
         }
         possibleSpaces.Clear();
     }
@@ -298,7 +300,7 @@ public class MapObject : MonoBehaviour
 
         foreach (GameObject possibleSpace in possibleSpaces)
         {
-            possibleSpace.GetComponent<Space>().PossibleSpace = true;
+            possibleSpace.GetComponent<Space>().StartFlashSpace(possibleSpaceFlashDelay);
         }
     }
 
@@ -639,6 +641,8 @@ public class MapObject : MonoBehaviour
         int nextEnemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease + (enemyStartingAmount - 1);
         if (nextEnemyAmount <= enemyLimit)
             enemyAmount = nextEnemyAmount;
+        else
+            enemyAmount = enemyLimit;
         if (enemyPhase) //prevent out of bounds exception
         {
             if (ps[PlayerTurn].pathKey.Equals(keyNames[1])) //if player is on truck route, double enemies
