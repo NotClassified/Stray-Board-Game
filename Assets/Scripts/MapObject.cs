@@ -231,15 +231,29 @@ public class MapObject : MonoBehaviour
     {
         boardSpacesParent.gameObject.SetActive(true);
 
-        ps = new PlayerScript[players.Length];
+        //set the correct amount of players
+        GameObject[] temp = players;
+        players = new GameObject[PlayerCount.count]; //array of correct size
+        for (int i = 0; i < PlayerCount.count; i++)
+        {
+            players[i] = temp[i];
+        }
+        //destroy the players that won't be used
+        for (int i = 3; i >= PlayerCount.count; i--)
+        {
+            Destroy(temp[i]);
+        }
+        //get all player scripts
+        ps = new PlayerScript[players.Length]; 
         for (int i = 0; i < players.Length; i++)
         {
             ps[i] = players[i].GetComponent<PlayerScript>();
+            //set reference position to starting space
             ps[i].pathKey = keyNames[0];
             ps[i].spaceIndex = 0;
-            ps[i].playerNum = i;
+            ps[i].playerNum = i; //set player number, this will id the player a lot
             players[i].transform.position = paths[keyNames[0]][0].transform.position + playerOffsets[i]; //starting position
-            playerCardsText[i].color = playerMaterials[i].color;
+            playerCardsText[i].color = playerMaterials[i].color; //set deifferent colors to each player
         }
         phaseText.text = "Roll Phase";
         turnText.text = "";
