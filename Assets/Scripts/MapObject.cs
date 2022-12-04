@@ -62,7 +62,8 @@ public class MapObject : MonoBehaviour
     public float playerScaleDuringTurn;
     public float playerScaleNotDuringTurn;
 
-    int enemyAmount = 0;
+    int enemyAmount;
+    public int enemyStartingAmount;
     int enemiesLeft;
     int enemyPoints = 2;
     public int enemyZurkPoints;
@@ -79,6 +80,7 @@ public class MapObject : MonoBehaviour
         {
             gameRound = value;
             SetEnemyAmount();
+            roundText.text = "Round: " + value;
         }
         get { return gameRound; }
     }
@@ -86,6 +88,7 @@ public class MapObject : MonoBehaviour
 
     public TextMeshProUGUI rollText;
     public TextMeshProUGUI turnText;
+    public TextMeshProUGUI roundText;
     public TextMeshProUGUI phaseText;
     public TextMeshProUGUI enemyAmountText;
     public Button rollButton;
@@ -633,7 +636,7 @@ public class MapObject : MonoBehaviour
     }
     void SetEnemyAmount()
     {
-        int nextEnemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease;
+        int nextEnemyAmount = (GameRound + enemyIncrease - 1) / enemyIncrease + (enemyStartingAmount - 1);
         if (nextEnemyAmount <= enemyLimit)
             enemyAmount = nextEnemyAmount;
         if (enemyPhase) //prevent out of bounds exception
