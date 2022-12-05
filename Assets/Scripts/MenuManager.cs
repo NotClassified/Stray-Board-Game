@@ -18,7 +18,7 @@ public class MenuManager : MonoBehaviour
     public void AddPlayerCount(int add) => SetPlayerCount(PlayerCount.count + add);
     public void SetPlayerCount(int val)
     {
-        if (val > 0 && val <= 4)
+        if (val > 0 && val <= PlayerCount.max)
         {
             PlayerCount.count = val;
             SetCountText();

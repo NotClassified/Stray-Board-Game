@@ -243,9 +243,10 @@ public class MapObject : MonoBehaviour
             players[i] = temp[i];
         }
         //destroy the players that won't be used
-        for (int i = 3; i >= PlayerCount.count; i--)
+        for (int i = PlayerCount.max - 1; i >= PlayerCount.count; i--)
         {
             Destroy(temp[i]);
+            playerCardsText[i].text = "";
         }
         //get all player scripts
         ps = new PlayerScript[players.Length]; 
