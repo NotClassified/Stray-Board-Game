@@ -516,7 +516,7 @@ public class MapObject : MonoBehaviour
             turnText.text = "Player's Turn: " + (PlayerTurn + 1);
 
             //Bucket zipline (plus 1 movement minus 1 stealth)
-            if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3])) 
+            if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[2])) 
                 ShowPossibleSpaces(PlayerTurn, rollMoves + 1); 
             else
                 ShowPossibleSpaces(PlayerTurn, rollMoves);
@@ -659,8 +659,9 @@ public class MapObject : MonoBehaviour
         string enemyAndPoints = enemyAmount + " (" + enemyAmount * enemyPoints + ")";
         enemyAmountText.text = "Number Of Enemies: " + enemyAndPoints;
         enemyAmountEnemyPhaseText.text = enemyAndPoints;
+
         enemiesLeft = ((enemyAmount * enemyPoints) + (enemyPoints - 1) - playerCombatPoints) / enemyPoints;
-        enemiesLeftText.text = enemiesLeft.ToString();
+        enemiesLeftText.text = enemiesLeft + " (" + (enemyAmount * enemyPoints - playerCombatPoints) + ")";
     }
 
     void PushBackPlayer(int playerNum, int moves)
@@ -694,7 +695,7 @@ public class MapObject : MonoBehaviour
     public void Roll()
     {
         rollMoves = Random.Range(1, 7);
-        //rollMoves = 60; print("rollMoves set to " + rollMoves); //for testing
+        //rollMoves = 30; print("rollMoves set to " + rollMoves); //for testing
 
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
@@ -755,7 +756,7 @@ public class MapObject : MonoBehaviour
         playerCardsText[playerNum].text = playerCardsText[playerNum].text.Substring(0, oldTextIndex)
             + playerCardsText[playerNum].text.Substring(oldTextIndex + 18);
         //add new text: |Completed Quest #|
-        playerCardsText[playerNum].text += "|Completed Quest " + (questNum + 1) + "|";
+        playerCardsText[playerNum].text += "|Completed Quest " + (questNum + 1) + "|\n";
         StartCoroutine(SetDrawCardText("Completed Quest!"));
     }
     bool HasCompletedQuestCard(int playerNum, int card) => ps[playerNum].questCardsComplete.Contains(card);
@@ -805,16 +806,26 @@ public class MapObject : MonoBehaviour
                 playerCombatPoints -= ps[PlayerTurn].cards[cardIndex];
             }
             enemiesLeft = ((enemyAmount * enemyPoints) + (enemyPoints - 1) - playerCombatPoints) / enemyPoints;
+            if (enemiesLeft > enemyAmount)
+                enemiesLeft = enemyAmount;
+
+            int enemyPointsLeft = enemyAmount * enemyPoints - playerCombatPoints;
             if (enemiesLeft >= 0)
-                enemiesLeftText.text = enemiesLeft.ToString();
+                enemiesLeftText.text = enemiesLeft + " (" + enemyPointsLeft + ")";
             else
-                enemiesLeftText.text = "0";
+                enemiesLeftText.text = "0 (" + enemyPointsLeft + ")";
         }
     }
     public void UseElevatorCard()
     {
         if (HasVendingMachineCard(PlayerTurn, vendingMachineCardNames[3]))
+        {
+            //delete: |Elevator|
+            int deleteTextIndex = playerCardsText[PlayerTurn].text.IndexOf("|" + vendingMachineCardNames[3] + "|");
+            playerCardsText[PlayerTurn].text = playerCardsText[PlayerTurn].text.Substring(0, deleteTextIndex)
+                + playerCardsText[PlayerTurn].text.Substring(deleteTextIndex + 11);
             NextEnemyPhaseTurn();
+        }
     }
 
     IEnumerator SetDrawCardText (string text)
