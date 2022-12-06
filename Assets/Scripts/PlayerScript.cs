@@ -19,7 +19,7 @@ public class PlayerScript : MonoBehaviour
     public List<int> questCardsComplete;
 
     public bool skipEnemyPhase = false;
-
+    public bool winning = false;
 
     private IEnumerator Start()
     {

@@ -278,7 +278,7 @@ public class MapObject : MonoBehaviour
         //    keyNameIndex++;
         //}
         if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
+            SceneManager.LoadScene(0);
     }
     public void Replay() => SceneManager.LoadScene(0);
 
@@ -501,9 +501,7 @@ public class MapObject : MonoBehaviour
 
             if (paths[pathKey][spaceIndex] == winningSpace) //player won
             {
-                winningScreen.SetActive(true);
-                winningText.text = "Player " + (playerNum + 1) + " Wins!";
-                winningText.color = playerMaterials[playerNum].color;
+                ps[playerNum].winning = true;
             }
         }
     }
@@ -523,6 +521,9 @@ public class MapObject : MonoBehaviour
         }
         else
         {
+            if (CheckGameOver())
+                return;
+
             for (int i = 0; i < players.Length; i++)
             {
                 DrawCard(i, false);
@@ -695,7 +696,7 @@ public class MapObject : MonoBehaviour
     public void Roll()
     {
         rollMoves = Random.Range(1, 7);
-        //rollMoves = 30; print("rollMoves set to " + rollMoves); //for testing
+        //rollMoves = 30; Debug.LogWarning("rollMoves set to " + rollMoves); //ONLY FOR TESTING
 
         rollText.text = rollMoves.ToString();
         rollButton.interactable = false;
@@ -839,5 +840,64 @@ public class MapObject : MonoBehaviour
         //hide text
         drawCardTextParent.SetActive(false);
         drawCardText.text = "";
+    }
+
+    //return true if one or more players lande on the end space
+    bool CheckGameOver()
+    {
+        foreach (PlayerScript script in ps)
+        {
+            if (script.winning)
+            {
+                GameOver();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void GameOver()
+    {
+        //get all players that are on the ending space
+        List<int> playersWon = new List<int>();
+        for (int i = 0; i < ps.Length; i++)
+        {
+            if (ps[i].winning)
+                playersWon.Add(i);
+        }
+
+        string playerNumbers = "";
+        for (int i = 0; i < playersWon.Count; i++) //add to winning text all the players that won
+        {
+            string playerColorHexCode = ColorUtility.ToHtmlStringRGB(playerMaterials[playersWon[i]].color);
+            int playerNum = playersWon[i] + 1;
+            //add player number and set the color of that number to the player color
+            playerNumbers += " <color=#" + playerColorHexCode + ">" + playerNum;
+
+            if (playersWon.Count > 2) //correct grammer when more than 2 players won
+            {
+                //add a comma to the text in between the player numbers
+                if (i < playersWon.Count - 2)
+                    playerNumbers += "<color=white>,";
+                //add a ", and" in between the last and 2nd last player numbers for correct grammer
+                else if (i == playersWon.Count - 2)
+                    playerNumbers += "<color=white>, and";
+            }
+            else if (playersWon.Count == 2)
+            {
+                //add a "and" in between the 2 player numbers for correct grammer
+                if (i == 0)
+                    playerNumbers += "<color=white> and";
+            }
+        }
+        winningScreen.SetActive(true);
+
+        if (playersWon.Count > 1) //correct grammer for multiple players
+            winningText.text = "<color=white>Players";
+        else //correct grammer for one player
+            winningText.text = "<color=white>Player";
+
+        //add the player numbers and "Won!" to finish the text
+        winningText.text += playerNumbers + " <color=white>Won!";
     }
 }
