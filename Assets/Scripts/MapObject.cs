@@ -633,9 +633,9 @@ public class MapObject : MonoBehaviour
         bool active = !enemyPhaseScreenParent.activeSelf;
         enemyPhaseScreenParent.SetActive(active);
         if (active)
-            showEnemyPhaseScreenText.text = "Show Stealth\nPhase Screen";
-        else
             showEnemyPhaseScreenText.text = "Hide Stealth\nPhase Screen";
+        else
+            showEnemyPhaseScreenText.text = "Show Stealth\nPhase Screen";
     }
     void SetEnemyAmount()
     {

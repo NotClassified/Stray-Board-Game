@@ -26,4 +26,6 @@ public class MenuManager : MonoBehaviour
     }
 
     void SetCountText() => playerCountText.text = PlayerCount.count.ToString();
+
+    public void Quit() => Application.Quit();
 }
